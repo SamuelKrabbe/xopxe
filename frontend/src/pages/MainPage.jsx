@@ -3,7 +3,7 @@ import { BooksCatalog, SearchBar } from "../components";
 
 export function MainPage() {
   const [search, setSearch] = useState("");
-  const {selectedBook, setSelectedBook} = useState(null)
+  const [selectedBook, setSelectedBook] = useState(null);
 
   return (
     <div>
@@ -12,11 +12,10 @@ export function MainPage() {
         setSearch={setSearch}
       />
 
-      <BooksCatalog search={search} onClick={setSelectedBook} />
-
-      {/* <aside> */}
-      {/*  {selectedBook ? <BooksInfo selectedBook={selectedBook} /> : <DefaultInfo />}  */}
-      {/* </aside> */}
+      <BooksCatalog
+        search={search}
+        onClick={setSelectedBook}
+      />
     </div>
-  )
+  );
 }
