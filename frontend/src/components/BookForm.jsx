@@ -2,19 +2,19 @@ import { useState } from "react";
 
 export function BookForm({ coverPreview, onCoverChange }) {
   const [formData, setFormData] = useState({
-    titulo: "",
-    autor: "",
-    editora: "",
-    genero: "",
-    dataPublicacao: "",
-    sinopse: "",
+    title: "",
+    author: "",
+    publisher: "",
+    genre: "",
+    publicationDate: "",
+    synopsis: "",
   });
 
   function handleChange(event) {
     const { name, value } = event.target;
 
-    setFormData((dadosAnteriores) => ({
-      ...dadosAnteriores,
+    setFormData((previous) => ({
+      ...previous,
       [name]: value,
     }));
   }
@@ -32,7 +32,7 @@ export function BookForm({ coverPreview, onCoverChange }) {
 
       <div className="book-form__main">
 
-        {/* CAPA DO LIVRO */}
+        {/* BOOK COVER */}
 
         <div className="book-cover-section">
 
@@ -63,20 +63,20 @@ export function BookForm({ coverPreview, onCoverChange }) {
 
         </div>
 
-        {/* INFORMAÇÕES DO LIVRO */}
+        {/* BOOK INFORMATION */}
 
         <div className="book-form__fields">
 
           <div className="book-field">
-            <label htmlFor="titulo">
+            <label htmlFor="title">
               Título da obra
             </label>
 
             <input
-              id="titulo"
-              name="titulo"
+              id="title"
+              name="title"
               type="text"
-              value={formData.titulo}
+              value={formData.title}
               onChange={handleChange}
               placeholder="Digite o título"
               required
@@ -84,15 +84,15 @@ export function BookForm({ coverPreview, onCoverChange }) {
           </div>
 
           <div className="book-field">
-            <label htmlFor="autor">
+            <label htmlFor="author">
               Autor
             </label>
 
             <input
-              id="autor"
-              name="autor"
+              id="author"
+              name="author"
               type="text"
-              value={formData.autor}
+              value={formData.author}
               onChange={handleChange}
               placeholder="Digite o autor"
               required
@@ -100,15 +100,15 @@ export function BookForm({ coverPreview, onCoverChange }) {
           </div>
 
           <div className="book-field">
-            <label htmlFor="editora">
+            <label htmlFor="publisher">
               Editora
             </label>
 
             <input
-              id="editora"
-              name="editora"
+              id="publisher"
+              name="publisher"
               type="text"
-              value={formData.editora}
+              value={formData.publisher}
               onChange={handleChange}
               placeholder="Digite a editora"
               required
@@ -116,14 +116,14 @@ export function BookForm({ coverPreview, onCoverChange }) {
           </div>
 
           <div className="book-field">
-            <label htmlFor="genero">
+            <label htmlFor="genre">
               Gênero
             </label>
 
             <select
-              id="genero"
-              name="genero"
-              value={formData.genero}
+              id="genre"
+              name="genre"
+              value={formData.genre}
               onChange={handleChange}
               required
             >
@@ -166,29 +166,29 @@ export function BookForm({ coverPreview, onCoverChange }) {
           </div>
 
           <div className="book-field">
-            <label htmlFor="dataPublicacao">
+            <label htmlFor="publicationDate">
               Data de publicação
             </label>
 
             <input
-              id="dataPublicacao"
-              name="dataPublicacao"
+              id="publicationDate"
+              name="publicationDate"
               type="date"
-              value={formData.dataPublicacao}
+              value={formData.publicationDate}
               onChange={handleChange}
               required
             />
           </div>
 
           <div className="book-field book-field--full">
-            <label htmlFor="sinopse">
+            <label htmlFor="synopsis">
               Sinopse
             </label>
 
             <textarea
-              id="sinopse"
-              name="sinopse"
-              value={formData.sinopse}
+              id="synopsis"
+              name="synopsis"
+              value={formData.synopsis}
               onChange={handleChange}
               placeholder="Digite a sinopse da obra"
               rows="6"

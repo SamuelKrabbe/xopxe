@@ -1,0 +1,15 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: xopxe-postgres
+    environment:
+      POSTGRES_DB: xopxe
+      POSTGRES_USER: xopxe
+      POSTGRES_PASSWORD: xopxe
+    ports:
+      - "5432:5432"
+    volumes:
+      - xopxe-postgres-data:/var/lib/postgresql/data
+
+volumes:
+  xopxe-postgres-data:

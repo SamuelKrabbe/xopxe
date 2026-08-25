@@ -1,0 +1,47 @@
+.search-bar {
+  display: flex;
+  align-items: stretch;
+
+  border: 1px solid var(--ink);
+
+  background: var(--card);
+}
+
+.search-bar__input {
+  flex: 1;
+  min-width: 0;
+
+  padding: 10px 14px;
+
+  border: 0;
+  background: transparent;
+
+  font-size: 16px;
+
+  outline: none;
+}
+
+.search-bar__input::placeholder {
+  color: var(--ink-muted);
+  opacity: 0.75;
+}
+
+.search-bar__clear {
+  padding: 0 18px;
+
+  border: 0;
+  border-left: 1px solid var(--ink);
+
+  background: transparent;
+
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.search-bar__clear:hover {
+  background: var(--ink);
+  color: var(--card);
+}

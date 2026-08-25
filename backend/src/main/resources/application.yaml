@@ -1,3 +1,28 @@
 spring:
   application:
     name: xopxe
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/xopxe
+    username: xopxe
+    password: xopxe
+
+  jpa:
+    # O Flyway é o dono do schema; o Hibernate só confere se bate com as entidades.
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+
+  flyway:
+    enabled: true
+
+# O front só precisa da mensagem do erro, não da pilha de exceção inteira.
+server:
+  error:
+    include-message: always
+    include-stacktrace: never
+
+# Origem do Vite em desenvolvimento, liberada no SecurityConfig.
+xopxe:
+  cors:
+    allowed-origin: http://localhost:5173

@@ -1,0 +1,41 @@
+.main-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 28px 40px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+
+/* Coluna da esquerda: busca + lista de obras. */
+.main-page__list {
+  min-width: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Coluna da direita: filtros e, depois, o painel de informações da obra. */
+.main-page__side {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.main-page__section-title {
+  margin: 0;
+  padding-bottom: 6px;
+
+  border-bottom: 2px solid var(--ink);
+
+  font-size: 18px;
+}
+
+@media (max-width: 900px) {
+  .main-page {
+    grid-template-columns: 1fr;
+    padding: 20px 16px 32px;
+  }
+}

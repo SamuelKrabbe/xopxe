@@ -1,0 +1,161 @@
+.account {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.account__avatar {
+  width: 54px;
+  height: 66px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid var(--ink);
+
+  background: var(--card-alt);
+
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: 900;
+
+  cursor: pointer;
+}
+
+.account__name {
+  max-width: 90px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+
+  font-size: 13px;
+}
+
+/* Painel que abre embaixo do avatar. */
+.account__panel {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+
+  width: 260px;
+  margin-top: 6px;
+
+  text-align: left;
+}
+
+.account__title {
+  margin: 0 0 14px;
+
+  font-size: 18px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.account__row {
+  margin: 0 0 6px;
+  font-size: 15px;
+}
+
+.account__row--muted {
+  margin-bottom: 14px;
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.account__field {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+
+  margin-bottom: 12px;
+}
+
+.account__field label {
+  width: 56px;
+  flex-shrink: 0;
+
+  font-size: 14px;
+}
+
+.account__field input {
+  flex: 1;
+  min-width: 0;
+
+  padding: 2px 0;
+
+  border: 0;
+  border-bottom: 1px dotted var(--ink);
+
+  background: transparent;
+
+  font-size: 14px;
+
+  outline: none;
+}
+
+.account__field input:focus {
+  border-bottom-style: solid;
+}
+
+.account__error {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-style: italic;
+}
+
+.account__submit {
+  width: 100%;
+
+  padding: 8px;
+
+  border: 2px solid var(--ink);
+  background: var(--ink);
+  color: var(--card);
+
+  font-size: 13px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.account__submit:hover {
+  background: var(--ink-muted);
+}
+
+.account__switch {
+  margin: 12px 0 0;
+  font-size: 12px;
+  text-align: center;
+}
+
+.account__switch button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+
+  font-size: 12px;
+  text-decoration: underline;
+
+  cursor: pointer;
+}
+
+@media (max-width: 700px) {
+  .account__avatar {
+    width: 34px;
+    height: 40px;
+    font-size: 18px;
+  }
+
+  .account__panel {
+    width: 220px;
+  }
+}

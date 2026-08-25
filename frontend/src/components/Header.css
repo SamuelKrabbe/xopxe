@@ -1,0 +1,67 @@
+/*
+  Estilos prontos para o Header (Jenniffer).
+  Para usar, adicione no topo do Header.jsx:  import "./Header.css";
+
+  Estrutura esperada:
+  <header class="masthead">
+    <AccountMenu ... />   (pronto, é só importar de ../components)
+    <h1 class="masthead__title">Xopxe.</h1>
+    <p class="masthead__date">25 de agosto de 2026</p>
+    <nav class="masthead__nav">
+      <button class="masthead__nav-item masthead__nav-item--active">Acervo</button>
+      <button class="masthead__nav-item">Cadastrar obra</button>
+    </nav>
+  </header>
+*/
+
+.masthead {
+  position: relative;
+  text-align: center;
+  padding: 20px 0 24px;
+}
+
+.masthead__title {
+  margin: 0;
+  font-size: clamp(56px, 11vw, 120px);
+  line-height: 0.9;
+  letter-spacing: -4px;
+}
+
+.masthead__date {
+  margin: 14px 0 0;
+  font-size: 17px;
+}
+
+.masthead__nav {
+  display: flex;
+  justify-content: center;
+  margin-top: 22px;
+}
+
+.masthead__nav-item {
+  padding: 7px 24px;
+
+  border: 1px solid var(--ink);
+  background: transparent;
+
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+/* Tira a borda dupla entre um botão e outro. */
+.masthead__nav-item + .masthead__nav-item {
+  border-left: 0;
+}
+
+.masthead__nav-item:hover {
+  background: var(--card);
+}
+
+.masthead__nav-item--active,
+.masthead__nav-item--active:hover {
+  background: var(--ink);
+  color: var(--card);
+}

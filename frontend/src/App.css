@@ -1,157 +1,52 @@
-.paper {
-  max-width: 1040px;
+/* Barra superior provisória: segura o menu de conta no canto direito.
+   Vira o .masthead quando o Header ficar pronto. */
+.app-top {
+  position: relative;
+
+  max-width: 1200px;
+  height: 90px;
+
   margin: 0 auto;
-  padding: 28px 32px 40px;
+  padding: 0 28px;
 }
 
-.masthead {
-  text-align: center;
+/* Caixa de conteúdo com borda, usada nos painéis da página. */
+.panel {
+  padding: 18px 20px;
+  border: 2px solid var(--ink);
+  background: var(--card);
 }
 
-.masthead__tagline {
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-  letter-spacing: 0.01em;
-  margin: 0 0 10px;
+.panel__title {
+  font-size: 26px;
+  margin: 0;
 }
 
-.masthead__title {
-  font-size: clamp(3.5rem, 13vw, 8.5rem);
-  line-height: 0.95;
-  letter-spacing: 0.08em;
-  margin: 8px 0 6px;
-  text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
+.panel__title--small {
+  font-size: 18px;
+  margin-bottom: 12px;
 }
 
-.masthead__meta {
-  display: flex;
-  justify-content: space-between;
-  gap: 16px;
-  font-size: 0.85rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  padding: 6px 2px;
-}
+.open-registration-button,
+.back-home-button {
+  display: block;
 
-.headline {
-  font-size: clamp(1.8rem, 5.5vw, 3.4rem);
-  text-align: center;
-  margin: 14px 0 10px;
-}
+  margin: 0 auto 40px;
+  padding: 10px 24px;
 
-.rule {
-  border: 0;
-  border-top: 2px solid var(--rule);
-  margin: 6px 0;
-}
+  border: 2px solid var(--ink);
 
-.rule--double {
-  border-top: 3px double var(--rule);
-}
-
-.rule--thin {
-  border-top: 1px solid var(--rule);
-}
-
-.columns {
-  display: grid;
-  grid-template-columns: 1fr 2fr 1fr;
-  gap: 22px;
-  margin-top: 18px;
-}
-
-.column + .column {
-  border-left: 1px solid var(--rule);
-  padding-left: 22px;
-}
-
-.column h2 {
-  font-size: 1.15rem;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 8px;
-}
-
-.column p {
-  font-size: 1rem;
-  line-height: 1.45;
-  color: var(--ink-soft);
-  margin: 0 0 12px;
-}
-
-.box {
-  border: 2px solid var(--rule);
-  padding: 14px;
-  margin-top: 14px;
-}
-
-.box h3 {
-  text-align: center;
-  font-size: 1rem;
-  letter-spacing: 0.14em;
-  margin-bottom: 10px;
-}
-
-.field {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.field label {
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.field input {
-  flex: 1;
-  min-width: 0;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px dotted var(--rule);
-  font-family: var(--font-body);
-  font-size: 0.95rem;
-  color: var(--ink);
-  padding: 2px 0;
-}
-
-.field input:focus {
-  outline: 0;
-  border-bottom-style: solid;
-}
-
-.btn {
-  width: 100%;
   background: var(--ink);
-  color: var(--paper-light);
-  border: 0;
-  font-family: var(--font-display);
-  font-size: 0.95rem;
-  letter-spacing: 0.2em;
-  padding: 9px;
+  color: var(--card);
+
+  font-size: 13px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
   cursor: pointer;
 }
 
-.btn:hover {
-  background: var(--ink-soft);
-}
-
-.footer {
-  text-align: center;
-  font-size: 0.85rem;
-  margin-top: 26px;
-}
-
-@media (max-width: 780px) {
-  .columns {
-    grid-template-columns: 1fr;
-  }
-
-  .column + .column {
-    border-left: 0;
-    border-top: 1px solid var(--rule);
-    padding-left: 0;
-    padding-top: 16px;
-  }
+.open-registration-button:hover,
+.back-home-button:hover {
+  background: var(--ink-muted);
 }
