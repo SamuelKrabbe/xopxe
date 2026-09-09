@@ -1,38 +1,84 @@
-/*
-  Estilos prontos para o DefaultInfo (Julio) — o painel que aparece
-  quando nenhum livro está selecionado.
-  Para usar, adicione no topo do DefaultInfo.jsx:  import "./DefaultInfo.css";
-
-  Estrutura esperada:
-  <div class="default-info panel">
-    <img class="default-info__image" src={hero} alt="Pilha de livros" />
-    <h2 class="default-info__title">Escolha uma obra</h2>
-    <p class="default-info__text">...</p>
-  </div>
-
-  A imagem src/assets/hero.png já está no projeto:
-  import hero from "../assets/hero.png";
-*/
-
 .default-info {
   text-align: center;
 }
 
+
 .default-info__image {
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
+
   margin: 0 auto 18px;
 
   border: 1px solid var(--ink);
 }
 
-.default-info__title {
-  font-size: 24px;
-  margin-bottom: 8px;
+
+/* RANKING */
+
+.default-info__ranking {
+  margin-top: 24px;
+  padding-top: 18px;
+
+  border-top: 2px solid var(--ink);
 }
 
-.default-info__text {
+
+.default-info__ranking-list {
   margin: 0;
-  font-size: 15px;
-  line-height: 1.5;
+  padding-left: 28px;
+
+  text-align: left;
+}
+
+.default-info__ranking-item {
+  padding: 7px 0;
+
+  border-bottom: 1px solid var(--ink);
+
+  font-size: 14px;
+}
+
+.default-info__ranking-item::marker {
+  font-weight: bold;
+}
+
+.default-info__ranking-book {
+  font-weight: bold;
+}
+
+.default-info__ranking-rating {
+  float: right;
+
+  margin-left: 12px;
+
+  color: var(--ink-muted);
+}
+
+
+/* TEXTO FINAL */
+
+.default-info__hint {
+  margin: 20px 0 0;
+
+  font-size: 13px;
+  font-style: italic;
+
+  color: var(--ink-muted);
+}
+
+
+/* CELULAR */
+
+@media (max-width: 700px) {
+  .default-info__title {
+    font-size: 22px;
+  }
+
+  .default-info__ranking-rating {
+    float: none;
+
+    display: block;
+
+    margin: 3px 0 0;
+  }
 }

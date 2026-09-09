@@ -93,7 +93,11 @@ export function MainPage() {
       <aside className="main-page__side">
         <Filters filters={filters} onFilterChange={handleFilterChange} />
 
-        {selectedBook ? <BooksInfo /> : <DefaultInfo />}
+        {selectedBook ? (
+          <BooksInfo selectedBook={selectedBook} />
+            ) : (
+              <DefaultInfo />
+            )}
       </aside>
     </main>
   );
