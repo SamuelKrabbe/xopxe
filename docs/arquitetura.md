@@ -246,8 +246,9 @@ como `.book-card__title` e `.book-card--selected`). Como o CSS aqui é global,
 Não há Redux nem Context: o estado mora no componente-pai mais próximo que
 precisa dele, e desce por props.
 
-- `App` guarda a página atual e o usuário logado, e repassa o usuário ao
-  `Header`, que por sua vez o entrega ao `AccountMenu`.
+- `App` guarda a página atual e o usuário logado. Entrega as duas coisas ao
+  `Header`: o usuário, que ele repassa ao `AccountMenu`, e a página atual mais
+  o `onNavigate`, que os botões do menu usam para trocar de tela.
 - `MainPage` guarda o termo de busca, os filtros e a obra selecionada, calcula
   a lista visível e a entrega pronta ao `BooksCatalog`.
 - `AccountMenu` guarda o formulário de login e avisa o `App` por callback
