@@ -1,0 +1,12 @@
+{
+  "name": "xopxe-docs",
+  "private": true,
+  "description": "Dependências para regerar o diagrama de classes.",
+  "scripts": {
+    "diagrama": "node render-diagrama.cjs"
+  },
+  "dependencies": {
+    "mermaid": "^12.0.0",
+    "playwright": "1.61.1"
+  }
+}
