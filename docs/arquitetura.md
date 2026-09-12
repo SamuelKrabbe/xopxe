@@ -191,6 +191,7 @@ frontend/src/
 │   └── BookRegistration.jsx  formulário de cadastro de obra
 │
 ├── components/            peças reutilizáveis, só .jsx
+│   ├── Header.jsx         cabeçalho: título, data e navegação
 │   ├── SearchBar.jsx      campo de busca
 │   ├── Filters.jsx        os cinco filtros
 │   ├── BooksCatalog.jsx   lista de obras
@@ -245,7 +246,8 @@ como `.book-card__title` e `.book-card--selected`). Como o CSS aqui é global,
 Não há Redux nem Context: o estado mora no componente-pai mais próximo que
 precisa dele, e desce por props.
 
-- `App` guarda a página atual e o usuário logado.
+- `App` guarda a página atual e o usuário logado, e repassa o usuário ao
+  `Header`, que por sua vez o entrega ao `AccountMenu`.
 - `MainPage` guarda o termo de busca, os filtros e a obra selecionada, calcula
   a lista visível e a entrega pronta ao `BooksCatalog`.
 - `AccountMenu` guarda o formulário de login e avisa o `App` por callback
@@ -438,8 +440,9 @@ classDiagram
 
 Cadastro de um novo usuário, do clique ao banco:
 
-1. **`AccountMenu.jsx`** — o usuário preenche nome, e-mail e senha e envia o
-   formulário. O componente chama `register(...)`.
+1. **`AccountMenu.jsx`** — o usuário abre o menu de conta no `Header`,
+   preenche nome, e-mail e senha e envia o formulário. O componente chama
+   `register(...)`.
 2. **`api/auth.js`** — monta o `fetch` `POST /api/auth/register` com o corpo em
    JSON. Se o servidor não responder, lança um erro em português que o
    componente exibe.
