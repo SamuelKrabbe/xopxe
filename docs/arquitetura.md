@@ -259,21 +259,28 @@ recebem dados e callbacks por props e não buscam nada sozinhos. A exceção é 
 
 ## 4. Diagrama de classes
 
+As duas entidades do banco, com o enum do papel do usuário. Cada classe
+corresponde a uma tabela criada pelas migrações do Flyway.
+
 ```mermaid
 classDiagram
-    direction LR
-
-    class XopxeApplication {
-        +main(String[] args)$
+    class User {
+        +Long id
+        +String name
+        +String email
+        +String password
+        +Role role
     }
 
-    %% ---------- Entidades (JPA) ----------
-    class User {
-        -Long id
-        -String name
-        -String email
-        -String password
-        -Role role
+    class Book {
+        +Long id
+        +String title
+        +String author
+        +String publisher
+        +String genre
+        +LocalDate publicationDate
+        +String synopsis
+        +String coverUrl
     }
 
     class Role {
@@ -282,159 +289,16 @@ classDiagram
         ADMIN
     }
 
-    class Book {
-        -Long id
-        -String title
-        -String author
-        -String publisher
-        -String genre
-        -LocalDate publicationDate
-        -String synopsis
-        -String coverUrl
-    }
-
-    %% ---------- Repositórios ----------
-    class JpaRepository~T, ID~ {
-        <<interface>>
-        +save(T entity) T
-        +findById(ID id) Optional~T~
-        +findAll() List~T~
-        +deleteById(ID id)
-    }
-
-    class UserRepository {
-        <<interface>>
-        +findByEmail(String email) Optional~User~
-        +existsByEmail(String email) boolean
-    }
-
-    class BookRepository {
-        <<interface>>
-    }
-
-    %% ---------- Serviços ----------
-    class BookService {
-        -BookRepository bookRepository
-        +list(String query, String genre) List~Book~
-        +findById(Long id) Book
-        +create(CreateBookRequest request) Book
-    }
-
-    class DatabaseUserDetailsService {
-        -UserRepository userRepository
-        +loadUserByUsername(String email) UserDetails
-    }
-
-    class UserDetailsService {
-        <<interface>>
-    }
-
-    %% ---------- Controladores ----------
-    class AuthController {
-        -UserRepository userRepository
-        -PasswordEncoder passwordEncoder
-        -AuthenticationManager authenticationManager
-        +register(RegisterRequest) UserResponse
-        +login(LoginRequest) UserResponse
-    }
-
-    class BookController {
-        -BookService bookService
-        +list(String q, String genre) List~BookResponse~
-        +getById(Long id) BookResponse
-        +create(CreateBookRequest) BookResponse
-    }
-
-    %% ---------- DTOs ----------
-    class LoginRequest {
-        <<record>>
-        +String email
-        +String password
-    }
-
-    class RegisterRequest {
-        <<record>>
-        +String name
-        +String email
-        +String password
-    }
-
-    class UserResponse {
-        <<record>>
-        +Long id
-        +String name
-        +String email
-        +String role
-        +from(User user) UserResponse$
-    }
-
-    class CreateBookRequest {
-        <<record>>
-        +String title
-        +String author
-        +String publisher
-        +String genre
-        +LocalDate publicationDate
-        +String synopsis
-        +String coverUrl
-    }
-
-    class BookResponse {
-        <<record>>
-        +Long id
-        +String title
-        +String author
-        +String publisher
-        +String genre
-        +LocalDate publicationDate
-        +String synopsis
-        +String coverUrl
-        +from(Book book) BookResponse$
-    }
-
-    %% ---------- Configuração ----------
-    class SecurityConfig {
-        -String allowedOrigin
-        +passwordEncoder() PasswordEncoder
-        +authenticationManager(AuthenticationConfiguration) AuthenticationManager
-        +securityFilterChain(HttpSecurity) SecurityFilterChain
-    }
-
-    class ApiExceptionHandler {
-        +handleResponseStatus(ResponseStatusException) ResponseEntity
-    }
-
-    class DemoUsersSeeder {
-        -UserRepository userRepository
-        -PasswordEncoder passwordEncoder
-        +run(String... args)
-    }
-
-    %% ---------- Relações ----------
-    User "1" --> "1" Role : papel
-
-    JpaRepository <|-- UserRepository
-    JpaRepository <|-- BookRepository
-    UserDetailsService <|.. DatabaseUserDetailsService
-
-    UserRepository ..> User : persiste
-    BookRepository ..> Book : persiste
-
-    BookController --> BookService : usa
-    BookService --> BookRepository : usa
-    AuthController --> UserRepository : usa
-    DatabaseUserDetailsService --> UserRepository : usa
-    DemoUsersSeeder --> UserRepository : popula
-
-    AuthController ..> LoginRequest : recebe
-    AuthController ..> RegisterRequest : recebe
-    AuthController ..> UserResponse : devolve
-    BookController ..> CreateBookRequest : recebe
-    BookController ..> BookResponse : devolve
-
-    UserResponse ..> User : converte de
-    BookResponse ..> Book : converte de
+    User "*" --> "1" Role : role
 ```
+
+| Classe | Tabela | Observações |
+|---|---|---|
+| `User` | `users` | `email` é único; `password` guarda o hash BCrypt; `role` é gravado como texto (`USER` / `ADMIN`) |
+| `Book` | `books` | `cover_url` é o único campo opcional; há índice por `genre` |
+
+`User` e `Book` ainda não se relacionam: o acervo não registra quem cadastrou a
+obra, e a tabela de avaliações — que ligaria as duas — ainda não existe.
 
 ## 5. O caminho de uma requisição
 
