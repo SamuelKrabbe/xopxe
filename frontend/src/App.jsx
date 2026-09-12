@@ -13,36 +13,16 @@ function App() {
       <div className="app-top">
         <Header
           user={user}
+          page={page}
+          onNavigate={setPage}
           onLogin={setUser}
           onLogout={() => setUser(null)}
         />
       </div>
 
-      {page === "home" && (
-        <>
-          <MainPage />
+      {page === "home" && <MainPage />}
 
-          <button
-            className="open-registration-button"
-            onClick={() => setPage("registration")}
-          >
-            Cadastrar nova obra
-          </button>
-        </>
-      )}
-
-      {page === "registration" && (
-        <>
-          <BookRegistration />
-
-          <button
-            className="back-home-button"
-            onClick={() => setPage("home")}
-          >
-            Voltar para o acervo
-          </button>
-        </>
-      )}
+      {page === "registration" && <BookRegistration />}
     </>
   );
 }

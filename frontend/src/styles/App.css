@@ -1,5 +1,4 @@
-/* Barra superior provisória: segura o menu de conta no canto direito.
-   Vira o .masthead quando o Header ficar pronto. */
+/* Centraliza o cabeçalho na mesma largura do conteúdo das páginas. */
 .app-top {
   position: relative;
 
@@ -8,28 +7,4 @@
 
   margin: 0 auto;
   padding: 0 28px;
-}
-
-.open-registration-button,
-.back-home-button {
-  display: block;
-
-  margin: 0 auto 40px;
-  padding: 10px 24px;
-
-  border: 2px solid var(--ink);
-
-  background: var(--ink);
-  color: var(--card);
-
-  font-size: 13px;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-
-  cursor: pointer;
-}
-
-.open-registration-button:hover,
-.back-home-button:hover {
-  background: var(--ink-muted);
 }
