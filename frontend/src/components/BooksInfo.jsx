@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./BooksInfo.css";
+import "../styles/BooksInfo.css";
 
 export function BooksInfo({ selectedBook }) {
   const rating = Math.round(selectedBook.rating);

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./App.css";
+import "./styles/App.css";
 
 import { AccountMenu } from "./components";
 import { MainPage, BookRegistration } from "./pages";

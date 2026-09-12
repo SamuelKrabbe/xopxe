@@ -1,6 +1,6 @@
 import hero from "../assets/hero.png";
 import { books } from "../data/books-mock";
-import "./DefaultInfo.css";
+import "../styles/DefaultInfo.css";
 
 export function DefaultInfo() {
   const topBooks = [...books]

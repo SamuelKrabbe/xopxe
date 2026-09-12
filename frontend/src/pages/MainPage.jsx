@@ -8,7 +8,7 @@ import {
 } from "../components";
 import { books } from "../data/books-mock";
 import { findRatingRange, findYearRange } from "../data/filter-options";
-import "./MainPage.css";
+import "../styles/MainPage.css";
 
 const EMPTY_FILTERS = {
   genre: "",

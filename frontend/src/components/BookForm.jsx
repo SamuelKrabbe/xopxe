@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/BookForm.css";
 
 export function BookForm({ coverPreview, onCoverChange }) {
   const [formData, setFormData] = useState({

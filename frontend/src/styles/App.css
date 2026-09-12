@@ -10,23 +10,6 @@
   padding: 0 28px;
 }
 
-/* Caixa de conteúdo com borda, usada nos painéis da página. */
-.panel {
-  padding: 18px 20px;
-  border: 2px solid var(--ink);
-  background: var(--card);
-}
-
-.panel__title {
-  font-size: 26px;
-  margin: 0;
-}
-
-.panel__title--small {
-  font-size: 18px;
-  margin-bottom: 12px;
-}
-
 .open-registration-button,
 .back-home-button {
   display: block;

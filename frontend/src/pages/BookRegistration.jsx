@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BookForm } from "../components";
-import "./BookRegistration.css";
+import "../styles/BookRegistration.css";
 
 export function BookRegistration() {
   const [coverPreview, setCoverPreview] = useState(null);

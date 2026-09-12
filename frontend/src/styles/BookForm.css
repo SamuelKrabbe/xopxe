@@ -1,64 +1,5 @@
-/* Cores e fontes vêm dos tokens de src/index.css. O tom claro do "papel"
-   (--sheet) e o do campo (--field) são só desta página. */
-.registration-page {
-  --sheet: #f3eadb;
-  --field: #fffaf0;
-
-  min-height: 100vh;
-  padding: 32px 40px 50px;
-
-  background:
-    radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.2), transparent 30%),
-    var(--paper-light);
-
-  color: var(--ink);
-}
-
-.registration-paper {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 35px 45px 45px;
-
-  background: var(--sheet);
-
-  border: 2px solid var(--ink);
-
-  box-shadow: 8px 8px 0 rgba(36, 31, 25, 0.25);
-}
-
-/* HEADER */
-
-.registration-header {
-  text-align: center;
-  border-bottom: 2px solid var(--ink);
-  padding-bottom: 22px;
-  margin-bottom: 28px;
-}
-
-.registration-kicker {
-  margin: 0 0 8px;
-
-  font-size: 13px;
-  letter-spacing: 3px;
-  text-transform: uppercase;
-}
-
-.registration-title {
-  margin: 0;
-
-  font-size: clamp(54px, 8vw, 92px);
-  line-height: 0.9;
-  letter-spacing: -4px;
-}
-
-.registration-subtitle {
-  margin: 14px 0 0;
-
-  font-size: 18px;
-  font-style: italic;
-}
-
-/* FORM */
+/* Formulário de cadastro de obra (components/BookForm.jsx). As cores do
+   papel (--sheet) e do campo (--field) vêm de .registration-page. */
 
 .book-form {
   width: 100%;
@@ -209,17 +150,9 @@
   transform: translateY(1px);
 }
 
-/* RESPONSIVE */
+/* RESPONSIVO */
 
 @media (max-width: 800px) {
-  .registration-page {
-    padding: 20px;
-  }
-
-  .registration-paper {
-    padding: 25px 22px 30px;
-  }
-
   .book-form__main {
     grid-template-columns: 1fr;
   }
@@ -238,18 +171,6 @@
 }
 
 @media (max-width: 480px) {
-  .registration-page {
-    padding: 10px;
-  }
-
-  .registration-paper {
-    padding: 20px 15px 25px;
-  }
-
-  .registration-title {
-    font-size: 52px;
-  }
-
   .book-cover-preview {
     width: 160px;
     height: 230px;
