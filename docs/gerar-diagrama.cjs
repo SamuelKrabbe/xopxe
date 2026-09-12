@@ -2,7 +2,7 @@
  * Gera o diagrama-de-classes.png a partir do bloco ```mermaid do
  * arquitetura.md, que é a única fonte da verdade do diagrama.
  *
- *   cd docs && npm install && node render-diagrama.cjs
+ *   cd docs && npm install && node gerar-diagrama.cjs
  *
  * O Mermaid roda dentro de um Chromium sem interface (Playwright); nada é
  * enviado para fora da máquina.

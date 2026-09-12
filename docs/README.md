@@ -16,7 +16,7 @@ mostra o diagrama direto do Markdown; o PNG existe para entrar no `.docx`.
 ```bash
 cd docs
 npm install          # baixa mermaid e playwright (só na primeira vez)
-node render-diagrama.cjs
+node gerar-diagrama.cjs
 ```
 
 Se der erro dizendo que o navegador não existe, falta baixar o Chromium que o
