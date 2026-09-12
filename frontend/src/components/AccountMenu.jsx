@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { login, register } from "../api/auth";
 import "../styles/AccountMenu.css";
+import fotoPerfil from '../assets/ada.png';
 
 const EMPTY_FORM = { name: "", email: "", password: "" };
 
@@ -64,7 +65,11 @@ export function AccountMenu({ user, onLogin, onLogout }) {
         aria-expanded={isOpen}
         onClick={() => (isOpen ? closeMenu() : setIsOpen(true))}
       >
-        {user ? user.name.charAt(0).toUpperCase() : "?"}
+       {user ? (
+          <img src={fotoPerfil} alt="Foto de perfil" className="profile-image" />
+        ) : (
+          "?"
+        )}
       </button>
 
       {user && <span className="account__name">{user.name}</span>}

@@ -1,6 +1,7 @@
 import hero from "../assets/hero.png";
 import { books } from "../data/books-mock";
 import "../styles/DefaultInfo.css";
+import imagemCapa from '../assets/capa.png';
 
 export function DefaultInfo() {
   const topBooks = [...books]
@@ -12,8 +13,8 @@ export function DefaultInfo() {
 
       <img
         className="default-info__image"
-        src={hero}
-        alt="Pilha de livros"
+        src={imagemCapa}
+        alt="Pilha de livros,a capa representa um espaço de leitura"
       />
 
       <div className="default-info__ranking">

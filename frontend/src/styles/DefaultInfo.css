@@ -5,13 +5,13 @@
 
 .default-info__image {
   width: 100%;
-  max-width: 300px;
-
-  margin: 0 auto 18px;
-
-  border: 1px solid var(--ink);
+  max-width: 500px; 
+  height: auto;   
+  object-fit: contain; 
+  display: block;
+  margin: 0 auto; 
+  border-radius: 8px; 
 }
-
 
 /* RANKING */
 
