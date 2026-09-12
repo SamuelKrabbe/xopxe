@@ -4,6 +4,8 @@ import "./styles/App.css";
 import { AccountMenu } from "./components";
 import { MainPage, BookRegistration } from "./pages";
 
+import Header from './components/Header';
+
 function App() {
   const [page, setPage] = useState("home");
   const [user, setUser] = useState(null);
@@ -12,7 +14,7 @@ function App() {
     <>
       {/* Quando a Jenniffer terminar o Header, o AccountMenu vai para dentro dele. */}
       <div className="app-top">
-        <AccountMenu
+        <Header
           user={user}
           onLogin={setUser}
           onLogout={() => setUser(null)}
