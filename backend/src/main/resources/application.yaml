@@ -16,11 +16,12 @@ spring:
   flyway:
     enabled: true
 
-# O front só precisa da mensagem do erro, não da pilha de exceção inteira.
-server:
-  error:
-    include-message: always
-    include-stacktrace: never
+  # O front só precisa da mensagem do erro, não da pilha de exceção inteira.
+  # No Spring Boot 4 estas chaves saíram de server.error.* para spring.web.error.*.
+  web:
+    error:
+      include-message: always
+      include-stacktrace: never
 
 # Origem do Vite em desenvolvimento, liberada no SecurityConfig.
 xopxe:

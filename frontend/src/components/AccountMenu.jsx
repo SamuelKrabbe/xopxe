@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { login, register } from "../api/auth";
-import "./AccountMenu.css";
+import "../styles/AccountMenu.css";
 
 const EMPTY_FORM = { name: "", email: "", password: "" };
 

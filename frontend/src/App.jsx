@@ -1,10 +1,8 @@
 import { useState } from "react";
-import "./App.css";
+import "./styles/App.css";
 
-import { AccountMenu } from "./components";
+import { Header } from "./components";
 import { MainPage, BookRegistration } from "./pages";
-
-import Header from './components/Header';
 
 function App() {
   const [page, setPage] = useState("home");
@@ -12,7 +10,6 @@ function App() {
 
   return (
     <>
-      {/* Quando a Jenniffer terminar o Header, o AccountMenu vai para dentro dele. */}
       <div className="app-top">
         <Header
           user={user}

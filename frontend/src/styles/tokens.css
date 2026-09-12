@@ -1,0 +1,15 @@
+:root {
+  /* Paleta do projeto */
+  --paper-light: #ccad85;
+  --paper: #c0a17a;
+  --paper-dark: #957d5f;
+  --ink-muted: #3f3527;
+  --ink-soft: #2c271e;
+  --ink: #241f19;
+
+  --card: #e8dfc8;
+  --card-alt: #d4c3a0;
+
+  --font-display: "Playfair Display", "Times New Roman", Times, serif;
+  --font-body: Georgia, "Times New Roman", Times, serif;
+}

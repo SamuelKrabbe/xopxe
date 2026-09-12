@@ -8,7 +8,7 @@ import {
 } from "../components";
 import { books } from "../data/books-mock";
 import { findRatingRange, findYearRange } from "../data/filter-options";
-import "./MainPage.css";
+import "../styles/MainPage.css";
 
 const EMPTY_FILTERS = {
   genre: "",
@@ -93,7 +93,11 @@ export function MainPage() {
       <aside className="main-page__side">
         <Filters filters={filters} onFilterChange={handleFilterChange} />
 
-        {selectedBook ? <BooksInfo /> : <DefaultInfo />}
+        {selectedBook ? (
+          <BooksInfo selectedBook={selectedBook} />
+            ) : (
+              <DefaultInfo />
+            )}
       </aside>
     </main>
   );
