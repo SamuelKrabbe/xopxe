@@ -11,14 +11,14 @@ public final class AuthDtos {
 	}
 
 	public record LoginRequest(
-			@NotBlank @Email String email,
-			@NotBlank String password) {
+			@NotBlank(message = "Informe o e-mail.") @Email(message = "Informe um e-mail válido.") String email,
+			@NotBlank(message = "Informe a senha.") String password) {
 	}
 
 	public record RegisterRequest(
-			@NotBlank @Size(max = 120) String name,
-			@NotBlank @Email @Size(max = 180) String email,
-			@NotBlank @Size(min = 6, max = 72) String password) {
+			@NotBlank(message = "Informe o nome.") @Size(max = 120, message = "O nome deve ter no máximo 120 caracteres.") String name,
+			@NotBlank(message = "Informe o e-mail.") @Email(message = "Informe um e-mail válido.") @Size(max = 180, message = "O e-mail deve ter no máximo 180 caracteres.") String email,
+			@NotBlank(message = "Informe a senha.") @Size(min = 6, max = 72, message = "A senha deve ter entre 6 e 72 caracteres.") String password) {
 	}
 
 	/** Resposta enviada ao front. Nunca inclui a senha. */

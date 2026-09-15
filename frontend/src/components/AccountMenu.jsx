@@ -135,6 +135,7 @@ export function AccountMenu({ user, onLogin, onLogout }) {
                   type="password"
                   value={form.password}
                   onChange={handleChange}
+                  minLength={mode === "signup" ? 6 : undefined}
                   required
                 />
               </div>
