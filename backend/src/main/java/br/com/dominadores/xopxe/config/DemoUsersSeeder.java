@@ -8,10 +8,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/**
- * Cria dois usuários de teste na primeira execução. Some quando tivermos
- * cadastro de verdade.
- */
+/** Cria dois usuários de teste (senha "password") quando o banco está vazio. */
 @Component
 @RequiredArgsConstructor
 public class DemoUsersSeeder implements CommandLineRunner {

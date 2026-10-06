@@ -31,8 +31,7 @@ public class User {
 	@Column(nullable = false, unique = true)
 	private String email;
 
-	/** Sempre guardado com hash BCrypt, nunca em texto puro. */
-	@Column(nullable = false)
+	/** Hash BCrypt, nunca texto puro. Fica vazio em quem entrou pelo Google. */
 	private String password;
 
 	@Enumerated(EnumType.STRING)

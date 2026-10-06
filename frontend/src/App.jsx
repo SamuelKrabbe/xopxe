@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./styles/App.css";
+import { fetchCurrentUser } from "./api/auth";
 
 import { Header } from "./components";
 import { MainPage, BookRegistration } from "./pages";
@@ -7,6 +8,14 @@ import { MainPage, BookRegistration } from "./pages";
 function App() {
   const [page, setPage] = useState("home");
   const [user, setUser] = useState(null);
+
+  // Ao abrir a página, pergunta ao backend se já existe sessão (login
+  // anterior ou volta do Google). Assim o F5 não desloga ninguém.
+  useEffect(() => {
+    fetchCurrentUser()
+      .then(setUser)
+      .catch((problem) => console.error(problem));
+  }, []);
 
   return (
     <>

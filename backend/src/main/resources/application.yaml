@@ -27,3 +27,8 @@ spring:
 xopxe:
   cors:
     allowed-origin: http://localhost:5173
+
+  # Login com Google. Os valores vêm do .env; se ficarem vazios, o login com Google fica desligado.
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:}
+    client-secret: ${GOOGLE_CLIENT_SECRET:}

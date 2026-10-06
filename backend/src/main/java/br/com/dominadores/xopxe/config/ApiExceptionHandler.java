@@ -23,11 +23,7 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(exception.getStatusCode()).body(Map.of("message", message));
     }
 
-    /**
-     * Sem isto o @Valid devolve a resposta padrão do Spring, cuja mensagem é
-     * "Validation failed for object='...'. Error count: 1" — o front mostra esse
-     * texto ao usuário, que fica sem saber o que corrigir.
-     */
+    // Junta as mensagens dos campos inválidos (ex.: "Informe o e-mail.") numa só.
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException exception) {
         String message = exception.getBindingResult().getFieldErrors().stream()

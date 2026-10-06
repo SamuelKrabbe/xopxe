@@ -13,6 +13,14 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BACKEND="$ROOT/backend"
 FRONTEND="$ROOT/frontend"
 
+# Credenciais do Google (GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET), se existirem.
+# set -a exporta tudo o que o .env define, para o backend enxergar.
+if [[ -f "$ROOT/.env" ]]; then
+	set -a
+	source "$ROOT/.env"
+	set +a
+fi
+
 # A máquina pode ter docker ou podman; usamos o que estiver instalado.
 if command -v docker >/dev/null 2>&1; then
 	COMPOSE=(docker compose)
@@ -79,7 +87,7 @@ echo "==> Backend em http://localhost:8080"
 pids+=("$!")
 
 # --strictPort: se a 5173 estiver ocupada é melhor falhar do que subir em outra
-# porta, porque o backend só libera a 5173 no CORS.
+# porta, porque o redirect do Google está registrado para a 5173.
 echo "==> Frontend em http://localhost:5173"
 (cd "$FRONTEND" && npm run dev -- --port 5173 --strictPort) &
 pids+=("$!")

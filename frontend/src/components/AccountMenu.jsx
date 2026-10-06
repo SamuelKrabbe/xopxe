@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { login, register } from "../api/auth";
+import { useEffect, useState } from "react";
+import { login, register, logout, fetchProviders } from "../api/auth";
 import "../styles/AccountMenu.css";
 import fotoPerfil from '../assets/ada.png';
 
@@ -11,6 +11,14 @@ export function AccountMenu({ user, onLogin, onLogout }) {
   const [form, setForm] = useState(EMPTY_FORM);
   const [error, setError] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [googleEnabled, setGoogleEnabled] = useState(false);
+
+  // Só mostra o botão do Google se o backend tiver as credenciais configuradas.
+  useEffect(() => {
+    fetchProviders()
+      .then((providers) => setGoogleEnabled(providers.google))
+      .catch((problem) => console.error(problem));
+  }, []);
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -52,7 +60,8 @@ export function AccountMenu({ user, onLogin, onLogout }) {
     }
   }
 
-  function handleLogout() {
+  async function handleLogout() {
+    await logout();
     onLogout();
     closeMenu();
   }
@@ -153,6 +162,17 @@ export function AccountMenu({ user, onLogin, onLogout }) {
                     ? "Entrar"
                     : "Cadastrar"}
               </button>
+
+              {/* Link normal, não fetch: o navegador sai para o Google e volta logado. */}
+              {googleEnabled && (
+                <>
+                  <p className="account__divider">ou</p>
+
+                  <a className="account__google" href="/oauth2/authorization/google">
+                    Entrar com Google
+                  </a>
+                </>
+              )}
 
               <p className="account__switch">
                 {mode === "login" ? (

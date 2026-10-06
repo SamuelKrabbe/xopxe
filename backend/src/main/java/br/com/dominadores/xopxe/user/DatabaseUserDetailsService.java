@@ -20,6 +20,11 @@ public class DatabaseUserDetailsService implements UserDetailsService {
 		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado: " + email));
 
+		// Conta criada pelo Google não tem senha, então não entra pelo formulário.
+		if (user.getPassword() == null) {
+			throw new UsernameNotFoundException("Conta sem senha local: " + email);
+		}
+
 		return new org.springframework.security.core.userdetails.User(
 				user.getEmail(),
 				user.getPassword(),

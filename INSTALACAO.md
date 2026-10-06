@@ -1,6 +1,50 @@
 # Como rodar o projeto
 
-Este guia instala tudo o que é preciso e sobe o projeto no seu computador. Siga os passos na ordem. Da primeira vez, leva uns 20 minutos, a maior parte esperando downloads.
+## Jeito rápido: Docker
+
+Para só ver o sistema funcionando, basta ter o **Git** e o **Docker** (ou **Podman**). Não precisa de Java nem de Node.
+
+```bash
+cd ~
+git clone https://github.com/SamuelKrabbe/xopxe.git
+cd xopxe
+./run.sh
+```
+
+Da primeira vez o build demora alguns minutos. Quando terminar, o navegador abre sozinho em:
+
+- **http://localhost:8000**: o sistema
+- **http://localhost:8000/swagger-ui.html**: a documentação da API (dá para testar as rotas por lá)
+
+Usuários de teste: `admin@xopxe.com` e `user@xopxe.com`, os dois com a senha `password`.
+
+Outros comandos:
+
+- `./run.sh down`: desliga
+- `./run.sh logs`: mostra os logs (útil quando algo dá erro)
+- `./run.sh clean`: desliga e apaga o banco
+
+## Login com Google (opcional)
+
+Sem isto tudo funciona, só não aparece o botão "Entrar com Google".
+
+1. No [Google Cloud Console](https://console.cloud.google.com/), em **Google Auth Platform > Clients**, crie um cliente do tipo **Web application**.
+2. Em **Authorized redirect URIs**, adicione (sem espaços):
+   - `http://localhost:8000/login/oauth2/code/google` (Docker)
+   - `http://localhost:5173/login/oauth2/code/google` (`./dev.sh`)
+3. Em **Audience**, adicione como **test users** as contas Google que vão entrar.
+4. Coloque o Client ID e o Client secret no arquivo `.env` da raiz do projeto:
+
+   ```
+   GOOGLE_CLIENT_ID=...
+   GOOGLE_CLIENT_SECRET=...
+   ```
+
+O `.env` não vai para o git. Nunca coloque o segredo em outro arquivo.
+
+## Rodando para programar
+
+O resto deste guia é para quem vai mexer no código. Ele instala tudo o que é preciso e sobe o projeto no seu computador. Siga os passos na ordem. Da primeira vez, leva uns 20 minutos, a maior parte esperando downloads.
 
 O projeto precisa de quatro programas:
 
