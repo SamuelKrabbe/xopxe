@@ -2,6 +2,8 @@ package br.com.dominadores.xopxe.book;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -46,4 +48,16 @@ public class Book {
 	/** Só o catálogo usa; o cadastro ainda não envia. */
 	@Column(name = "cover_url")
 	private String coverUrl;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "access_type", nullable = false)
+	private BookAccessType accessType;
+
+	/** Preenchido só quando accessType é FREE. */
+	@Column(name = "pdf_url")
+	private String pdfUrl;
+
+	/** Preenchido só quando accessType é PURCHASE. */
+	@Column(name = "purchase_url")
+	private String purchaseUrl;
 }

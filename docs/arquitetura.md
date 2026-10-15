@@ -91,8 +91,8 @@ Métodos como `save`, `findById` e `findAll` já vêm prontos.
 ### Serviços
 
 Ficam entre o controlador e o repositório e guardam as regras de negócio. O
-`BookService` ainda não foi implementado: os métodos lançam
-`UnsupportedOperationException`, então as rotas de livro respondem erro 500. O
+`BookService` lista os livros (com busca por título ou autor e filtro por
+gênero), busca um livro pelo id (404 se não existir) e cadastra novos livros. O
 catálogo da tela ainda usa dados mockados.
 
 ### Controladores
@@ -163,6 +163,15 @@ classDiagram
         +LocalDate publicationDate
         +String synopsis
         +String coverUrl
+        +BookAccessType accessType
+        +String pdfUrl
+        +String purchaseUrl
+    }
+
+    class BookAccessType {
+        <<enumeration>>
+        FREE
+        PURCHASE
     }
 
     class Role {
@@ -172,10 +181,11 @@ classDiagram
     }
 
     User "*" --> "1" Role : role
+    Book "*" --> "1" BookAccessType : accessType
 ```
 
 `User` vira a tabela `users`, com o e-mail único e a senha gravada em hash.
-`Book` vira a tabela `books`, onde só a capa é opcional. As duas ainda não se
+`Book` vira a tabela `books`. O `accessType` diz se o livro é gratuito (`FREE`, com `pdfUrl`) ou à venda (`PURCHASE`, com `purchaseUrl`). Só a capa e o link que não se aplica ao tipo de acesso ficam vazios. As duas ainda não se
 relacionam, porque a tabela de avaliações não existe.
 
 ## 5. Como rodar

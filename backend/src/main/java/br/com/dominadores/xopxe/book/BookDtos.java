@@ -11,6 +11,7 @@ public final class BookDtos {
 	private BookDtos() {
 	}
 
+	/** FREE exige pdfUrl e PURCHASE exige purchaseUrl (checado no BookService). */
 	public record CreateBookRequest(
 			@NotBlank @Size(max = 200) String title,
 			@NotBlank @Size(max = 160) String author,
@@ -18,7 +19,10 @@ public final class BookDtos {
 			@NotBlank @Size(max = 60) String genre,
 			@NotNull @PastOrPresent LocalDate publicationDate,
 			@NotBlank String synopsis,
-			@Size(max = 500) String coverUrl) {
+			@Size(max = 500) String coverUrl,
+			@NotNull BookAccessType accessType,
+			@Size(max = 1000) String pdfUrl,
+			@Size(max = 1000) String purchaseUrl) {
 	}
 
 	public record BookResponse(
@@ -29,7 +33,10 @@ public final class BookDtos {
 			String genre,
 			LocalDate publicationDate,
 			String synopsis,
-			String coverUrl) {
+			String coverUrl,
+			BookAccessType accessType,
+			String pdfUrl,
+			String purchaseUrl) {
 
 		public static BookResponse from(Book book) {
 			return new BookResponse(
@@ -40,7 +47,10 @@ public final class BookDtos {
 					book.getGenre(),
 					book.getPublicationDate(),
 					book.getSynopsis(),
-					book.getCoverUrl());
+					book.getCoverUrl(),
+					book.getAccessType(),
+					book.getPdfUrl(),
+					book.getPurchaseUrl());
 		}
 	}
 }
