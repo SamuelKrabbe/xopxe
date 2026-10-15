@@ -16,13 +16,19 @@ spring:
   flyway:
     enabled: true
 
-# O front só precisa da mensagem do erro, não da pilha de exceção inteira.
-server:
-  error:
-    include-message: always
-    include-stacktrace: never
+  # O front só precisa da mensagem do erro, não da pilha de exceção inteira.
+  # No Spring Boot 4 estas chaves saíram de server.error.* para spring.web.error.*.
+  web:
+    error:
+      include-message: always
+      include-stacktrace: never
 
 # Origem do Vite em desenvolvimento, liberada no SecurityConfig.
 xopxe:
   cors:
     allowed-origin: http://localhost:5173
+
+  # Login com Google. Os valores vêm do .env; se ficarem vazios, o login com Google fica desligado.
+  google:
+    client-id: ${GOOGLE_CLIENT_ID:}
+    client-secret: ${GOOGLE_CLIENT_SECRET:}

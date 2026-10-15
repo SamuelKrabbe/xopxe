@@ -8,6 +8,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import java.time.LocalDate;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,29 +22,42 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Book {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    @Column(nullable = false, length = 200)
-    private String title;
+	@Column(nullable = false)
+	private String title;
 
-    @Column(nullable = false, length = 150)
-    private String author;
+	@Column(nullable = false)
+	private String author;
 
-    @Column(columnDefinition = "TEXT")
-    private String description;
+	@Column(nullable = false)
+	private String publisher;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "access_type", nullable = false, length = 20)
-    private BookAccessType accessType;
+	/** Texto livre — o front manda o rótulo escolhido no <select>. */
+	@Column(nullable = false)
+	private String genre;
 
-    @Column(name = "pdf_url", length = 1000)
-    private String pdfUrl;
+	@Column(name = "publication_date", nullable = false)
+	private LocalDate publicationDate;
 
-    @Column(name = "purchase_url", length = 1000)
-    private String purchaseUrl;
+	@Column(nullable = false, columnDefinition = "text")
+	private String synopsis;
 
-    @Column(name = "cover_url", length = 1000)
-    private String coverUrl;
+	/** Só o catálogo usa; o cadastro ainda não envia. */
+	@Column(name = "cover_url")
+	private String coverUrl;
+
+	@Enumerated(EnumType.STRING)
+	@Column(name = "access_type", nullable = false)
+	private BookAccessType accessType;
+
+	/** Preenchido só quando accessType é FREE. */
+	@Column(name = "pdf_url")
+	private String pdfUrl;
+
+	/** Preenchido só quando accessType é PURCHASE. */
+	@Column(name = "purchase_url")
+	private String purchaseUrl;
 }

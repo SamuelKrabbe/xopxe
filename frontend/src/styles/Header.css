@@ -1,6 +1,6 @@
 /*
   Estilos prontos para o Header (Jenniffer).
-  Para usar, adicione no topo do Header.jsx:  import "./Header.css";
+  Para usar, adicione no topo do Header.jsx:  import "../styles/Header.css";
 
   Estrutura esperada:
   <header class="masthead">

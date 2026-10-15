@@ -1,6 +1,7 @@
 package br.com.dominadores.xopxe.auth;
 
 import br.com.dominadores.xopxe.user.User;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -10,15 +11,16 @@ public final class AuthDtos {
 	private AuthDtos() {
 	}
 
+	// Os exemplos já preenchem o login do admin de teste no Swagger.
 	public record LoginRequest(
-			@NotBlank @Email String email,
-			@NotBlank String password) {
+			@Schema(example = "admin@xopxe.com") @NotBlank(message = "Informe o e-mail.") @Email(message = "Informe um e-mail válido.") String email,
+			@Schema(example = "password") @NotBlank(message = "Informe a senha.") String password) {
 	}
 
 	public record RegisterRequest(
-			@NotBlank @Size(max = 120) String name,
-			@NotBlank @Email @Size(max = 180) String email,
-			@NotBlank @Size(min = 6, max = 72) String password) {
+			@NotBlank(message = "Informe o nome.") @Size(max = 120, message = "O nome deve ter no máximo 120 caracteres.") String name,
+			@NotBlank(message = "Informe o e-mail.") @Email(message = "Informe um e-mail válido.") @Size(max = 180, message = "O e-mail deve ter no máximo 180 caracteres.") String email,
+			@NotBlank(message = "Informe a senha.") @Size(min = 6, max = 72, message = "A senha deve ter entre 6 e 72 caracteres.") String password) {
 	}
 
 	/** Resposta enviada ao front. Nunca inclui a senha. */
@@ -27,5 +29,8 @@ public final class AuthDtos {
 		public static UserResponse from(User user) {
 			return new UserResponse(user.getId(), user.getName(), user.getEmail(), user.getRole().name());
 		}
+	}
+
+	public record ProvidersResponse(boolean google) {
 	}
 }

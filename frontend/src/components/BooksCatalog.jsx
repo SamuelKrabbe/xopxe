@@ -1,5 +1,5 @@
 import { useState } from "react";
-import "./BooksCatalog.css";
+import "../styles/BooksCatalog.css";
 
 export function BooksCatalog({ books, selectedBook, onSelect }) {
   if (books.length === 0) {

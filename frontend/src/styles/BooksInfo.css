@@ -1,56 +1,54 @@
-/*
-  Estilos prontos para o BooksInfo (Julio).
-  Para usar, adicione no topo do BooksInfo.jsx:  import "./BooksInfo.css";
-
-  A classe .panel (caixa com borda) está no App.css e pode ser usada aqui.
-
-  Estrutura esperada:
-  <div class="book-info">
-    <section class="panel">
-      <div class="book-info__rating">
-        <h2 class="panel__title">Classificação</h2>
-        <span class="stars">★★★★☆</span>
-      </div>
-      <h3 class="book-info__label">Sinopse</h3>
-      <p class="book-info__synopsis">...</p>
-      <dl class="book-info__meta"><div><dt>Autor</dt><dd>...</dd></div></dl>
-    </section>
-
-    <div class="book-info__columns">
-      <section class="panel">
-        <h3 class="panel__title panel__title--small">Avaliações recentes</h3>
-        <ul class="review-list">
-          <li class="review">
-            <div>
-              <p class="review__reader">Ada</p>
-              <span class="stars">★★★★★</span>
-            </div>
-            <span class="review__date">18/08/2026</span>
-          </li>
-        </ul>
-      </section>
-
-      <section class="panel">
-        <h3 class="panel__title panel__title--small">Faça sua avaliação</h3>
-        <div class="star-picker">
-          <button class="star-picker__star">★</button>
-        </div>
-        <button class="book-info__submit">Enviar avaliação</button>
-      </section>
-    </div>
-  </div>
-*/
-
 .book-info {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
+
+/* CAPA + INFORMAÇÕES */
+
+.book-info__top {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.book-info__cover {
+  width: 140px;
+  height: 200px;
+
+  object-fit: cover;
+
+  border: 2px solid var(--ink);
+}
+
+.book-info__cover-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
+  background: var(--card-alt);
+
+  font-size: 14px;
+}
+
+.book-info__details {
+  min-width: 0;
+}
+
+
+/* CLASSIFICAÇÃO */
+
 .book-info__rating {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+
   gap: 12px;
+
   margin-bottom: 16px;
 }
 
@@ -59,20 +57,30 @@
   letter-spacing: 2px;
 }
 
+
+/* SINOPSE */
+
 .book-info__label {
   font-size: 16px;
+
   margin-bottom: 6px;
 }
 
 .book-info__synopsis {
   margin: 0;
+
   font-size: 15px;
   line-height: 1.5;
 }
 
+
+/* DADOS DO LIVRO */
+
 .book-info__meta {
   display: grid;
+
   grid-template-columns: repeat(2, 1fr);
+
   gap: 10px 20px;
 
   margin: 16px 0 0;
@@ -83,38 +91,53 @@
 
 .book-info__meta dt {
   font-size: 11px;
+
   letter-spacing: 1px;
   text-transform: uppercase;
+
   color: var(--ink-muted);
 }
 
 .book-info__meta dd {
   margin: 2px 0 0;
+
   font-size: 15px;
 }
 
+
+/* PARTE DE BAIXO */
+
 .book-info__columns {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 16px;
 }
 
 .book-info__empty {
   margin: 0;
+
   font-size: 14px;
   font-style: italic;
 }
 
+
+/* AVALIAÇÕES */
+
 .review-list {
   list-style: none;
+
   margin: 0;
   padding: 0;
 }
 
 .review {
   display: flex;
+
   justify-content: space-between;
   align-items: flex-start;
+
   gap: 10px;
 
   padding: 8px 0;
@@ -126,23 +149,32 @@
 
 .review__reader {
   margin: 0 0 2px;
+
   font-size: 15px;
 }
 
 .review__date {
   font-size: 13px;
+
   color: var(--ink-muted);
 }
 
+
+/* ESTRELAS DA AVALIAÇÃO */
+
 .star-picker {
   display: flex;
+
   gap: 4px;
+
   margin-bottom: 14px;
 }
 
 .star-picker__star {
   padding: 0;
+
   border: 0;
+
   background: transparent;
 
   font-size: 24px;
@@ -151,16 +183,21 @@
   cursor: pointer;
 }
 
+
+/* BOTÃO DE ENVIAR - PARA USARMOS DEPOIS */
+
 .book-info__submit {
   width: 100%;
 
   padding: 10px;
 
   border: 2px solid var(--ink);
+
   background: var(--ink);
   color: var(--card);
 
   font-size: 13px;
+
   letter-spacing: 1px;
   text-transform: uppercase;
 
@@ -173,12 +210,31 @@
 
 .book-info__submit:disabled {
   background: transparent;
+
   color: var(--ink-muted);
+
   cursor: not-allowed;
 }
 
+
+/* RESPONSIVIDADE */
+
 @media (max-width: 900px) {
   .book-info__columns {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .book-info__top {
+    grid-template-columns: 1fr;
+  }
+
+  .book-info__cover {
+    margin: 0 auto;
+  }
+
+  .book-info__meta {
     grid-template-columns: 1fr;
   }
 }

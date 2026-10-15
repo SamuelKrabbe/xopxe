@@ -1,0 +1,36 @@
+# Usado pelo ./run.sh. Sobe banco, backend e site em http://localhost:8000.
+services:
+  postgres:
+    image: docker.io/library/postgres:17
+    environment:
+      POSTGRES_DB: xopxe
+      POSTGRES_USER: xopxe
+      POSTGRES_PASSWORD: xopxe
+    volumes:
+      - xopxe-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U xopxe"]
+      interval: 2s
+      retries: 30
+
+  backend:
+    build: ./backend
+    environment:
+      # Dentro da rede do compose o banco se chama "postgres", não localhost.
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/xopxe
+      GOOGLE_CLIENT_ID: ${GOOGLE_CLIENT_ID:-}
+      GOOGLE_CLIENT_SECRET: ${GOOGLE_CLIENT_SECRET:-}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  web:
+    build: ./frontend
+    # 8000 e não 80: o podman sem root não pode abrir portas abaixo de 1024.
+    ports:
+      - "8000:80"
+    depends_on:
+      - backend
+
+volumes:
+  xopxe-data:

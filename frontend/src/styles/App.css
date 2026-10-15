@@ -1,0 +1,10 @@
+/* Centraliza o cabeçalho na mesma largura do conteúdo das páginas. */
+.app-top {
+  position: relative;
+
+  max-width: 1200px;
+  height: auto;
+
+  margin: 0 auto;
+  padding: 0 28px;
+}

@@ -1,6 +1,6 @@
 import { books } from "../data/books-mock";
 import { RATING_RANGES, YEAR_RANGES } from "../data/filter-options";
-import "./Filters.css";
+import "../styles/Filters.css";
 
 const ANY = "";
 
