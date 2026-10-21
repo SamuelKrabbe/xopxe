@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   BooksCatalog,
   BooksInfo,
@@ -6,8 +6,8 @@ import {
   Filters,
   SearchBar,
 } from "../components";
-import { books } from "../data/books-mock";
 import { findRatingRange, findYearRange } from "../data/filter-options";
+import { fetchBooks } from "../api/books"; 
 import "../styles/MainPage.css";
 
 const EMPTY_FILTERS = {
@@ -47,7 +47,9 @@ function matchesFilters(book, filters) {
   if (filters.year !== "") {
     const range = findYearRange(filters.year);
 
-    if (book.year < range.min || book.year > range.max) {
+    const bookYear = book.publicationDate ? parseInt(book.publicationDate.substring(0, 4)) : 0;
+
+    if (bookYear < range.min || bookYear > range.max) {
       return false;
     }
   }
@@ -55,7 +57,9 @@ function matchesFilters(book, filters) {
   if (filters.rating !== "") {
     const range = findRatingRange(filters.rating);
 
-    if (book.rating < range.min) {
+    const bookRating = book.rating || 5.0;
+
+    if (bookRating < range.min) {
       return false;
     }
   }
@@ -67,6 +71,18 @@ export function MainPage() {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [selectedBook, setSelectedBook] = useState(null);
+  
+  const [books, setBooks] = useState([]);
+
+  useEffect(() => {
+    fetchBooks(search, filters.genre)
+      .then((data) => {
+        setBooks(data);
+      })
+      .catch((error) => {
+        console.error("Erro ao procurar os livros na API:", error);
+      });
+  }, [search, filters.genre]);
 
   const visibleBooks = books.filter(
     (book) => matchesSearch(book, search) && matchesFilters(book, filters),
@@ -91,13 +107,16 @@ export function MainPage() {
       </div>
 
       <aside className="main-page__side">
-        <Filters filters={filters} onFilterChange={handleFilterChange} />
+        <Filters 
+        books={books}
+        filters={filters} 
+        onFilterChange={handleFilterChange} />
 
         {selectedBook ? (
           <BooksInfo selectedBook={selectedBook} />
-            ) : (
-              <DefaultInfo />
-            )}
+        ) : (
+          <DefaultInfo />
+        )}
       </aside>
     </main>
   );

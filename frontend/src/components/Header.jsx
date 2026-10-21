@@ -23,23 +23,25 @@ export function Header({ user, page, onNavigate, onLogin, onLogout }) {
 
       <p className="masthead__date">{formattedDate}</p>
 
-      <nav className="masthead__nav">
-        {PAGES.map(({ id, label }) => (
-          <button
-            key={id}
-            type="button"
-            className={
-              id === page
-                ? "masthead__nav-item masthead__nav-item--active"
-                : "masthead__nav-item"
-            }
-            aria-current={id === page ? "page" : undefined}
-            onClick={() => onNavigate(id)}
-          >
-            {label}
-          </button>
-        ))}
-      </nav>
+      {user?.role === "ADMIN" && (
+        <nav className="masthead__nav">
+          {PAGES.map(({ id, label }) => (
+            <button
+              key={id}
+              type="button"
+              className={
+                id === page
+                  ? "masthead__nav-item masthead__nav-item--active"
+                  : "masthead__nav-item"
+              }
+              aria-current={id === page ? "page" : undefined}
+              onClick={() => onNavigate(id)}
+            >
+              {label}
+            </button>
+          ))}
+        </nav>
+      )}
     </header>
   );
 }

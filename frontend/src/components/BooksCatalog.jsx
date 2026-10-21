@@ -36,10 +36,10 @@ function BookCard({ book, isSelected, onSelect }) {
     >
       <div className="book-card__cover">
         {hasCover ? (
-          <img
-            src={book.cover}
-            alt={`Capa de ${book.title}`}
-            onError={() => setHasCover(false)}
+          <img 
+            className="book-card__cover" 
+            src={book.coverUrl || "https://via.placeholder.com/150?text=Sem+Capa"} 
+            alt={`Capa de ${book.title}`} 
           />
         ) : (
           <span className="book-card__cover-fallback">Capa</span>
@@ -56,8 +56,8 @@ function BookCard({ book, isSelected, onSelect }) {
         <p className="book-card__line">{book.publisher}</p>
 
         <p className="book-card__line book-card__line--rating">
-          ★ {book.rating.toFixed(1).replace(".", ",")} &middot; {book.pages} páginas
-        </p>
+          ★ {(book.rating || 5.0).toFixed(1).replace(".", ",")} &middot; {book.pages} páginas
+        </p> 
       </div>
     </button>
   );
