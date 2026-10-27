@@ -4,7 +4,7 @@ import "../styles/BooksCatalog.css";
 export function BooksCatalog({ books, selectedBook, onSelect }) {
   if (books.length === 0) {
     return (
-      <p className="catalog__empty">
+      <p className="catalog__empty" role="status">
         Nenhuma obra encontrada com esses filtros.
       </p>
     );
@@ -32,6 +32,7 @@ function BookCard({ book, isSelected, onSelect }) {
     <button
       type="button"
       className={isSelected ? "book-card book-card--selected" : "book-card"}
+      aria-pressed={isSelected}
       onClick={() => onSelect(book)}
     >
       <div className="book-card__cover">
@@ -56,8 +57,10 @@ function BookCard({ book, isSelected, onSelect }) {
         <p className="book-card__line">{book.publisher}</p>
 
         <p className="book-card__line book-card__line--rating">
-          ★ {(book.rating || 5.0).toFixed(1).replace(".", ",")} &middot; {book.pages} páginas
-        </p> 
+          <span aria-hidden="true">★ </span>
+          <span className="sr-only">Nota </span>
+            {(book.rating || 5.0).toFixed(1).replace(".", ",")} &middot; {book.pages} páginas
+        </p>
       </div>
     </button>
   );

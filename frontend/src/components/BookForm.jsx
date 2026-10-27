@@ -47,7 +47,7 @@ export function BookForm() {
       <div className="book-form__main">
         {/* BOOK COVER */}
         <div className="book-cover-section">
-          <p className="book-cover-title">Capa do livro (Link)</p>
+          <label htmlFor="coverUrl" className="book-cover-title">Capa do livro (Link)</label>
           
           <div className="book-cover-preview">
             {formData.coverUrl ? (

@@ -149,7 +149,7 @@ export function AccountMenu({ user, onLogin, onLogout }) {
                 />
               </div>
 
-              {error && <p className="account__error">{error}</p>}
+              {error && <p className="account__error" role="alert">{error}</p>}
 
               <button
                 type="submit"

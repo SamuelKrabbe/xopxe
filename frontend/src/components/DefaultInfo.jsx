@@ -27,6 +27,8 @@ export function DefaultInfo() {
               </span>
 
               <span className="default-info__ranking-rating">
+                <span aria-hidden="true">★ </span>
+                <span className="sr-only">Nota </span>
                 ★ {book.rating.toFixed(1).replace(".", ",")}
               </span>
             </li>

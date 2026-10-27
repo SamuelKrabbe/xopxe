@@ -58,11 +58,11 @@ export function BooksInfo({ selectedBook }) {
                 Classificação
               </h2>
 
-              <span className="stars">
+              <span className="stars" role="img" aria-label={`${safeRating.toFixed(1).replace(".", ",")} de 5 estrelas`}>
                 {stars}
               </span>
 
-              <span>
+              <span aria-hidden="true">
                 {safeRating.toFixed(1).replace(".", ",")}
               </span>
             </div>
@@ -125,9 +125,11 @@ export function BooksInfo({ selectedBook }) {
                 key={star}
                 type="button"
                 className="star-picker__star"
+                aria-label={`${star} ${star === 1 ? "estrela" : "estrelas"}`}
+                aria-pressed={star <= userRating}
                 onClick={() => setUserRating(star)}
               >
-                {star <= userRating ? "★" : "☆"}
+                <span aria-hidden="true">{star <= userRating ? "★" : "☆"}</span>
               </button>
             ))}
           </div>

@@ -45,3 +45,8 @@
   background: var(--ink);
   color: var(--card);
 }
+
+.search-bar:focus-within {
+  outline: 3px solid var(--ink);
+  outline-offset: 2px;
+}
