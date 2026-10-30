@@ -7,7 +7,7 @@ import {
   SearchBar,
 } from "../components";
 import { findYearRange } from "../data/filter-options";
-import { fetchBooks } from "../api/books";
+import { fetchBooks, loadSavedBooks, saveBooks } from "../api/books";
 import "../styles/MainPage.css";
 
 const EMPTY_FILTERS = {
@@ -60,12 +60,15 @@ export function MainPage({ user }) {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [selectedBook, setSelectedBook] = useState(null);
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState(loadSavedBooks);
   const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
     fetchBooks()
-      .then(setBooks)
+      .then((list) => {
+        setBooks(list);
+        saveBooks(list);
+      })
       .catch((error) => setLoadError(error.message));
   }, []);
 
@@ -85,7 +88,7 @@ export function MainPage({ user }) {
         <h2 className="main-page__section-title">Lançamentos</h2>
 
         {/* Mostra o erro da API, senão parecia que nenhum livro bateu com os filtros. */}
-        {loadError ? (
+        {loadError && books.length === 0 ? (
           <p className="main-page__error" role="alert">
             {loadError} Recarregue a página para tentar de novo.
           </p>

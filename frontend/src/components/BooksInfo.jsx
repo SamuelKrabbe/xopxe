@@ -18,6 +18,7 @@ export function BooksInfo({ selectedBook, user }) {
   // No celular o painel fica embaixo da lista, então rola a tela até ele.
   // No computador ele já aparece do lado.
   useEffect(() => {
+    if (!window.matchMedia("(max-width: 900px)").matches) return;
     const top = panelRef.current.getBoundingClientRect().top;
     if (top < 0 || top > window.innerHeight / 2) {
       panelRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
