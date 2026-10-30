@@ -4,17 +4,24 @@ import br.com.dominadores.xopxe.user.Role;
 import br.com.dominadores.xopxe.user.User;
 import br.com.dominadores.xopxe.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-/** Cria dois usuários de teste (senha "password") quando o banco está vazio. */
+/**
+ * Cria dois usuários de teste quando o banco está vazio. A senha é "password",
+ * a não ser que a variável DEMO_PASSWORD esteja definida (usamos isso no Render).
+ */
 @Component
 @RequiredArgsConstructor
 public class DemoUsersSeeder implements CommandLineRunner {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Value("${DEMO_PASSWORD:password}")
+    private String demoPassword;
 
     @Override
     public void run(String... args) {
@@ -30,7 +37,7 @@ public class DemoUsersSeeder implements CommandLineRunner {
         User user = new User();
         user.setName(name);
         user.setEmail(email);
-        user.setPassword(passwordEncoder.encode("password"));
+        user.setPassword(passwordEncoder.encode(demoPassword));
         user.setRole(role);
 
         return user;
