@@ -14,12 +14,15 @@ public class GoogleLoginSettings {
 
     private final String clientId;
     private final String clientSecret;
+    private final String redirectUri;
 
     public GoogleLoginSettings(
             @Value("${xopxe.google.client-id}") String clientId,
-            @Value("${xopxe.google.client-secret}") String clientSecret) {
+            @Value("${xopxe.google.client-secret}") String clientSecret,
+            @Value("${xopxe.google.redirect-uri}") String redirectUri) {
         this.clientId = clientId;
         this.clientSecret = clientSecret;
+        this.redirectUri = redirectUri;
     }
 
     public boolean isEnabled() {
@@ -28,9 +31,12 @@ public class GoogleLoginSettings {
 
     // O Spring já conhece os endereços do Google; só falta o id e o segredo.
     public ClientRegistration clientRegistration() {
-        return CommonOAuth2Provider.GOOGLE.getBuilder("google")
+        var builder = CommonOAuth2Provider.GOOGLE.getBuilder("google")
                 .clientId(clientId)
-                .clientSecret(clientSecret)
-                .build();
+                .clientSecret(clientSecret);
+        if (!redirectUri.isBlank()) {
+            builder.redirectUri(redirectUri);
+        }
+        return builder.build();
     }
 }
