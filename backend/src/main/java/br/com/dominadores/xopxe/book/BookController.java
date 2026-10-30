@@ -29,7 +29,6 @@ public class BookController {
 
 	private final BookService bookService;
 
-	/** GET /api/books?q=...&genre=..., aberto a todos (ver SecurityConfig). */
 	@Operation(summary = "Lista os livros, com busca e filtro por gênero opcionais")
 	@GetMapping
 	public List<BookResponse> list(
@@ -44,7 +43,6 @@ public class BookController {
 		return BookResponse.from(bookService.findById(id));
 	}
 
-	/** POST /api/books, só o admin pode. */
 	@Operation(summary = "Cadastra um livro (só ADMIN)")
 	@SecurityRequirement(name = OpenApiConfig.SESSION_SCHEME)
 	@PostMapping

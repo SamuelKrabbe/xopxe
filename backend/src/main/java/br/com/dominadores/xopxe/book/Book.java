@@ -35,7 +35,6 @@ public class Book {
 	@Column(nullable = false)
 	private String publisher;
 
-	/** Texto livre, o front manda o que foi escolhido no <select>. */
 	@Column(nullable = false)
 	private String genre;
 
@@ -45,7 +44,6 @@ public class Book {
 	@Column(nullable = false, columnDefinition = "text")
 	private String synopsis;
 
-	/** Só o catálogo usa; o cadastro ainda não envia. */
 	@Column(name = "cover_url")
 	private String coverUrl;
 

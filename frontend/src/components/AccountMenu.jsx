@@ -13,7 +13,6 @@ export function AccountMenu({ user, onLogin, onLogout }) {
   const [isSending, setIsSending] = useState(false);
   const [googleEnabled, setGoogleEnabled] = useState(false);
 
-  // Só mostra o botão do Google se o backend tiver as credenciais configuradas.
   useEffect(() => {
     fetchProviders()
       .then((providers) => setGoogleEnabled(providers.google))

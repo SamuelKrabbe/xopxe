@@ -17,7 +17,6 @@ spring:
     enabled: true
 
   # O front só precisa da mensagem do erro, não da pilha de exceção inteira.
-  # No Spring Boot 4 estas chaves saíram de server.error.* para spring.web.error.*.
   web:
     error:
       include-message: always
@@ -32,6 +31,5 @@ xopxe:
   google:
     client-id: ${GOOGLE_CLIENT_ID:}
     client-secret: ${GOOGLE_CLIENT_SECRET:}
-    # No Render o Spring monta o endereço de volta com o domínio do Render, não o
-    # da Vercel. Lá definimos GOOGLE_REDIRECT_URI; no computador fica vazio.
+    # Endereço de volta do Google. Só é definido no Render; vazio, o Spring monta sozinho.
     redirect-uri: ${GOOGLE_REDIRECT_URI:}

@@ -208,39 +208,6 @@
 }
 
 
-/* BOTÃO DE ENVIAR - PARA USARMOS DEPOIS */
-
-.book-info__submit {
-  width: 100%;
-
-  padding: 10px;
-
-  border: 2px solid var(--ink);
-
-  background: var(--ink);
-  color: var(--card);
-
-  font-size: 13px;
-
-  letter-spacing: 1px;
-  text-transform: uppercase;
-
-  cursor: pointer;
-}
-
-.book-info__submit:hover:enabled {
-  background: var(--ink-muted);
-}
-
-.book-info__submit:disabled {
-  background: transparent;
-
-  color: var(--ink-muted);
-
-  cursor: not-allowed;
-}
-
-
 /* RESPONSIVIDADE */
 
 @media (max-width: 900px) {

@@ -87,8 +87,7 @@ public class SecurityConfig {
         return http.build();
     }
 
-    // Faz o Google sempre mostrar a tela de escolher conta. Sem isso, com várias
-    // contas logadas no navegador, às vezes dava erro 400 no login.
+    // Faz o Google sempre mostrar a tela de escolher conta.
     private OAuth2AuthorizationRequestResolver googleAccountChooser(ClientRegistrationRepository clients) {
         var resolver = new DefaultOAuth2AuthorizationRequestResolver(clients,
                 OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);

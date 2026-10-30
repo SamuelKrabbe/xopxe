@@ -52,7 +52,7 @@ def write_inline(paragraph, text, bold=False):
             inner = piece[2:-2]
             run = paragraph.add_run(inner.strip("`"))
             run.bold = True
-            if inner.startswith("`"):  # **`código`** — negrito e monoespaçado
+            if inner.startswith("`"):  # **`código`** fica em negrito e monoespaçado
                 run.font.name = "Consolas"
                 run.font.size = Pt(9.5)
         elif piece.startswith("`"):

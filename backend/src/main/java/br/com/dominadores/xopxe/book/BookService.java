@@ -51,7 +51,6 @@ public class BookService {
 
 	// Usado pelo create e pelo update, assim os dois validam do mesmo jeito.
 	private void apply(Book book, CreateBookRequest request) {
-		// Primeiro valida tudo, só depois altera o livro.
 		String coverUrl = trimToNull(request.coverUrl());
 		if (coverUrl != null && !isHttpUrl(coverUrl)) {
 			throw badRequest("O endereço da capa deve ser uma URL HTTP ou HTTPS válida.");

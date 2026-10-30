@@ -44,7 +44,6 @@ public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
         response.sendRedirect("/");
     }
 
-    // Conta nova vinda do Google: papel USER e sem senha.
     private User createUser(String email, String name) {
         User user = new User();
         user.setName(name != null ? name : email);

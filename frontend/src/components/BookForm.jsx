@@ -162,7 +162,7 @@ export function BookForm() {
             />
           </div>
 
-          {/* NOVOS CAMPOS: Tipo de Acesso e Links Dinâmicos */}
+          {/* TIPO DE ACESSO E LINKS */}
           <div className="book-field">
             <label htmlFor="accessType">Tipo de Acesso</label>
             <select

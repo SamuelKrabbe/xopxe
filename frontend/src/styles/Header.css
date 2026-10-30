@@ -1,18 +1,4 @@
-/*
-  Estilos prontos para o Header (Jenniffer).
-  Para usar, adicione no topo do Header.jsx:  import "../styles/Header.css";
-
-  Estrutura esperada:
-  <header class="masthead">
-    <AccountMenu ... />   (pronto, é só importar de ../components)
-    <h1 class="masthead__title">Xopxe.</h1>
-    <p class="masthead__date">25 de agosto de 2026</p>
-    <nav class="masthead__nav">
-      <button class="masthead__nav-item masthead__nav-item--active">Acervo</button>
-      <button class="masthead__nav-item">Cadastrar obra</button>
-    </nav>
-  </header>
-*/
+/* Cabeçalho do site (components/Header.jsx). */
 
 .masthead {
   position: relative;

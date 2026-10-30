@@ -5,7 +5,6 @@ import react from '@vitejs/plugin-react'
 // mantém o endereço localhost:5173, que é o cadastrado no Google como retorno.
 const BACKEND = { target: 'http://localhost:8080', changeOrigin: false }
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
   server: {

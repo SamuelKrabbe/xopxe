@@ -23,7 +23,6 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(exception.getStatusCode()).body(Map.of("message", message));
     }
 
-    // Junta as mensagens dos campos inválidos (ex.: "Informe o e-mail.") numa só.
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidation(MethodArgumentNotValidException exception) {
         String message = exception.getBindingResult().getFieldErrors().stream()

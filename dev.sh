@@ -4,9 +4,6 @@
 #
 #   ./dev.sh          inicia tudo (Ctrl+C encerra backend e frontend)
 #   ./dev.sh --stop   para o Postgres, que fica rodando em segundo plano
-#
-# -e: aborta no primeiro erro. -u: erro ao usar variável não definida.
-# -o pipefail: um erro no meio de um pipe não passa despercebido.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
