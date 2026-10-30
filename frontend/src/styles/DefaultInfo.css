@@ -46,7 +46,7 @@
   font-weight: bold;
 }
 
-.default-info__ranking-rating {
+.default-info__ranking-author {
   float: right;
 
   margin-left: 12px;
@@ -74,7 +74,7 @@
     font-size: 22px;
   }
 
-  .default-info__ranking-rating {
+  .default-info__ranking-author {
     float: none;
 
     display: block;

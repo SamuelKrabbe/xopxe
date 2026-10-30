@@ -1,23 +1,35 @@
-import { useState } from "react";
-import { createBook } from "../api/books"; 
+import { useCallback, useState } from "react";
+import { createBook } from "../api/books";
+import { GENRES } from "../data/genres";
+import { Toast } from "./Toast";
 import "../styles/BookForm.css";
 
+const EMPTY_FORM = {
+  title: "",
+  author: "",
+  publisher: "",
+  genre: "",
+  publicationDate: "",
+  synopsis: "",
+  coverUrl: "",
+  accessType: "PURCHASE",
+  pdfUrl: "",
+  purchaseUrl: "",
+};
+
 export function BookForm() {
-  const [formData, setFormData] = useState({
-    title: "",
-    author: "",
-    publisher: "",
-    genre: "",
-    publicationDate: "",
-    synopsis: "",
-    coverUrl: "",
-    accessType: "PURCHASE", 
-    pdfUrl: "",
-    purchaseUrl: "",
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [toast, setToast] = useState(null);
+  const [isSending, setIsSending] = useState(false);
+  // useCallback para a função não mudar a cada render, senão o Toast reinicia o timer.
+  const closeToast = useCallback(() => setToast(null), []);
+  const [coverFailed, setCoverFailed] = useState(false);
+  // Usado no max do campo de data, para não deixar escolher data futura.
+  const today = new Date().toISOString().slice(0, 10);
 
   function handleChange(event) {
     const { name, value } = event.target;
+    if (name === "coverUrl") setCoverFailed(false);
     setFormData((previous) => ({
       ...previous,
       [name]: value,
@@ -27,6 +39,9 @@ export function BookForm() {
   async function handleSubmit(event) {
     event.preventDefault();
 
+    setIsSending(true);
+    setToast(null);
+
     try {
       const livroParaSalvar = {
         ...formData,
@@ -35,10 +50,12 @@ export function BookForm() {
       };
 
       await createBook(livroParaSalvar);
-      alert("Obra cadastrada com sucesso!");
-      window.location.reload(); 
+      setFormData(EMPTY_FORM);
+      setToast({ kind: "success", message: `Obra "${livroParaSalvar.title}" cadastrada no acervo.` });
     } catch (error) {
-      alert("Falha ao salvar o livro: " + error.message);
+      setToast({ kind: "error", message: `Não foi possível cadastrar a obra: ${error.message}` });
+    } finally {
+      setIsSending(false);
     }
   }
 
@@ -50,12 +67,14 @@ export function BookForm() {
           <label htmlFor="coverUrl" className="book-cover-title">Capa do livro (Link)</label>
           
           <div className="book-cover-preview">
-            {formData.coverUrl ? (
+            {formData.coverUrl && !coverFailed ? (
               <img
                 src={formData.coverUrl}
                 alt="Pré-visualização da capa"
-                onError={(e) => { e.target.src = "https://via.placeholder.com/150?text=Link+Inválido"; }}
+                onError={() => setCoverFailed(true)}
               />
+            ) : coverFailed ? (
+              <span>Não foi possível<br />abrir essa imagem</span>
             ) : (
               <span>Cole o link<br />da imagem</span>
             )}
@@ -65,8 +84,7 @@ export function BookForm() {
             id="coverUrl"
             name="coverUrl"
             type="url"
-            className="book-field"
-            style={{ width: "100%", marginTop: "10px" }}
+            className="book-cover-input"
             value={formData.coverUrl}
             onChange={handleChange}
             placeholder="http://..."
@@ -125,14 +143,9 @@ export function BookForm() {
               required
             >
               <option value="">Selecione</option>
-              <option value="Romance">Romance</option>
-              <option value="Fiction">Ficção</option>
-              <option value="Fantasy">Fantasia</option>
-              <option value="Thriller">Suspense</option>
-              <option value="Horror">Terror</option>
-              <option value="Biography">Biografia</option>
-              <option value="History">História</option>
-              <option value="Technology">Tecnologia</option>
+              {GENRES.map((genre) => (
+                <option key={genre} value={genre}>{genre}</option>
+              ))}
             </select>
           </div>
 
@@ -142,6 +155,7 @@ export function BookForm() {
               id="publicationDate"
               name="publicationDate"
               type="date"
+              max={today}
               value={formData.publicationDate}
               onChange={handleChange}
               required
@@ -209,10 +223,12 @@ export function BookForm() {
       </div>
 
       <div className="book-form__actions">
-        <button type="submit" className="book-form__button">
-          Cadastrar obra
+        <button type="submit" className="book-form__button" disabled={isSending}>
+          {isSending ? "Cadastrando..." : "Cadastrar obra"}
         </button>
       </div>
+
+      {toast && <Toast kind={toast.kind} message={toast.message} onClose={closeToast} />}
     </form>
   );
 }

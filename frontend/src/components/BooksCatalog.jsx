@@ -36,11 +36,11 @@ function BookCard({ book, isSelected, onSelect }) {
       onClick={() => onSelect(book)}
     >
       <div className="book-card__cover">
-        {hasCover ? (
-          <img 
-            className="book-card__cover" 
-            src={book.coverUrl || "https://via.placeholder.com/150?text=Sem+Capa"} 
-            alt={`Capa de ${book.title}`} 
+        {hasCover && book.coverUrl ? (
+          <img
+            src={book.coverUrl}
+            alt={`Capa de ${book.title}`}
+            onError={() => setHasCover(false)}
           />
         ) : (
           <span className="book-card__cover-fallback">Capa</span>
@@ -50,17 +50,11 @@ function BookCard({ book, isSelected, onSelect }) {
       <div className="book-card__info">
         <h3 className="book-card__title">{book.title}</h3>
 
-        <p className="book-card__line">{book.year}</p>
+        <p className="book-card__line">{book.publicationDate?.substring(0, 4)}</p>
 
         <p className="book-card__line">{book.author}</p>
 
         <p className="book-card__line">{book.publisher}</p>
-
-        <p className="book-card__line book-card__line--rating">
-          <span aria-hidden="true">★ </span>
-          <span className="sr-only">Nota </span>
-            {(book.rating || 5.0).toFixed(1).replace(".", ",")} &middot; {book.pages} páginas
-        </p>
       </div>
     </button>
   );

@@ -103,8 +103,6 @@
   background: transparent;
 
   font-size: 14px;
-
-  outline: none;
 }
 
 .account__field input:focus {

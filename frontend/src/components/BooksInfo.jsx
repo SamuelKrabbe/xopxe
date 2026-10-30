@@ -1,41 +1,39 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { fetchReviews } from "../api/reviews";
+import { PdfReader } from "./PdfReader";
+import { ReviewForm } from "./ReviewForm";
+import { ReviewList } from "./ReviewList";
+import { stars } from "../data/stars";
 import "../styles/BooksInfo.css";
 
-
-function traduzirGenero(generoOriginal) {
-  if (!generoOriginal) return "N/I";
-  
-  const g = generoOriginal.toLowerCase();
-
-  if (g.includes("juvenile")) return "Ficção Infantojuvenil";
-  if (g.includes("fiction") || g.includes("ficção")) return "Ficção";
-  if (g.includes("poetry") || g.includes("poesia")) return "Poesia";
-  if (g.includes("biography") || g.includes("machado de assis")) return "Biografia";
-  if (g.includes("history") || g.includes("história")) return "História";
-  if (g.includes("philosophy") || g.includes("filosofia")) return "Filosofia";
-  if (g.includes("business") || g.includes("economics")) return "Economia";
-  if (g.includes("antiques") || g.includes("collectibles")) return "Antiguidades e Colecionáveis";
-  
-  if (g.includes("literatur") || g.includes("literary") || g.includes("authors") || g.includes("brasilianisch") || g.includes("criticism")) {
-    return "Literatura";
-  }
-
-  return generoOriginal; 
-}
-
-export function BooksInfo({ selectedBook }) {
-  const safeRating = selectedBook.rating || 5.0;
-  const rating = Math.round(safeRating);
-
-  const stars =
-    "★".repeat(rating) +
-    "☆".repeat(5 - rating);
-
-  const [userRating, setUserRating] = useState(0);
+export function BooksInfo({ selectedBook, user }) {
+  const [reviews, setReviews] = useState(null);
+  const [reviewsError, setReviewsError] = useState("");
+  // Muda depois de salvar ou apagar uma avaliação, para recarregar a lista.
+  const [reviewsVersion, setReviewsVersion] = useState(0);
   const [hasCover, setHasCover] = useState(true);
+  const [isReading, setIsReading] = useState(false);
+  const panelRef = useRef(null);
+
+  // No celular o painel fica embaixo da lista, então rola a tela até ele.
+  // No computador ele já aparece do lado.
+  useEffect(() => {
+    const top = panelRef.current.getBoundingClientRect().top;
+    if (top < 0 || top > window.innerHeight / 2) {
+      panelRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchReviews(selectedBook.id)
+      .then(setReviews)
+      .catch((problem) => setReviewsError(problem.message));
+  }, [selectedBook.id, reviewsVersion]);
+
+  const myReview = reviews?.reviews.find((review) => review.userId === user?.id);
 
   return (
-    <div className="book-info">
+    <div className="book-info" ref={panelRef}>
       <section className="panel">
         <div className="book-info__top">
 
@@ -58,13 +56,15 @@ export function BooksInfo({ selectedBook }) {
                 Classificação
               </h2>
 
-              <span className="stars" role="img" aria-label={`${safeRating.toFixed(1).replace(".", ",")} de 5 estrelas`}>
-                {stars}
-              </span>
-
-              <span aria-hidden="true">
-                {safeRating.toFixed(1).replace(".", ",")}
-              </span>
+              {reviews?.average != null ? (
+                <span>
+                  <span aria-hidden="true">{stars(reviews.average)} </span>
+                  {reviews.average.toFixed(1).replace(".", ",")} de 5 ·{" "}
+                  {reviews.count} {reviews.count === 1 ? "avaliação" : "avaliações"}
+                </span>
+              ) : (
+                <span>{reviews ? "Sem avaliações ainda." : ""}</span>
+              )}
             </div>
 
             <h3 className="book-info__label">
@@ -88,19 +88,35 @@ export function BooksInfo({ selectedBook }) {
 
               <div>
                 <dt>Gênero</dt>
-                <dd>{traduzirGenero(selectedBook.genre)}</dd>
+                <dd>{selectedBook.genre}</dd>
               </div>
 
               <div>
                 <dt>Ano</dt>
                 <dd>{selectedBook.publicationDate?.substring(0, 4) || "N/I"}</dd>
               </div>
-
-              <div>
-                <dt>Páginas</dt>
-                <dd>{selectedBook.pages || "N/I"}</dd>
-              </div>
             </dl>
+
+            <div className="book-info__actions">
+              {selectedBook.accessType === "FREE" ? (
+                <button
+                  type="button"
+                  className="book-info__action"
+                  onClick={() => setIsReading(true)}
+                >
+                  Ler agora
+                </button>
+              ) : (
+                <a
+                  className="book-info__action"
+                  href={selectedBook.purchaseUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Comprar
+                </a>
+              )}
+            </div>
           </div>
         </div>
       </section>
@@ -110,31 +126,39 @@ export function BooksInfo({ selectedBook }) {
           <h3 className="panel__title panel__title--small">
             Avaliações recentes
           </h3>
-          <p className="book-info__empty">
-            Nenhuma avaliação ainda.
-          </p>
+          {reviewsError ? (
+            <p className="book-info__empty" role="alert">{reviewsError}</p>
+          ) : (
+            reviews && (
+              <ReviewList
+                reviews={reviews.reviews}
+                canModerate={user?.role === "ADMIN"}
+                onChange={() => setReviewsVersion((version) => version + 1)}
+              />
+            )
+          )}
         </section>
 
         <section className="panel">
           <h3 className="panel__title panel__title--small">
             Faça sua avaliação
           </h3>
-          <div className="star-picker">
-            {[1, 2, 3, 4, 5].map((star) => (
-              <button
-                key={star}
-                type="button"
-                className="star-picker__star"
-                aria-label={`${star} ${star === 1 ? "estrela" : "estrelas"}`}
-                aria-pressed={star <= userRating}
-                onClick={() => setUserRating(star)}
-              >
-                <span aria-hidden="true">{star <= userRating ? "★" : "☆"}</span>
-              </button>
-            ))}
-          </div>
+          {/* Espera carregar para o formulário já abrir com a avaliação do usuário. */}
+          {reviews && (
+            <ReviewForm
+              key={user?.id ?? "anonymous"}
+              bookId={selectedBook.id}
+              user={user}
+              myReview={myReview}
+              onChange={() => setReviewsVersion((version) => version + 1)}
+            />
+          )}
         </section>
       </div>
+
+      {isReading && (
+        <PdfReader book={selectedBook} onClose={() => setIsReading(false)} />
+      )}
     </div>
   );
 }

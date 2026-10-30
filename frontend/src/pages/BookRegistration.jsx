@@ -1,23 +1,7 @@
-import { useState } from "react";
 import { BookForm } from "../components";
 import "../styles/BookRegistration.css";
 
 export function BookRegistration() {
-  const [coverPreview, setCoverPreview] = useState(null);
-
-  function handleCoverChange(event) {
-    const file = event.target.files?.[0];
-
-    if (!file) {
-      setCoverPreview(null);
-      return;
-    }
-
-    const imageUrl = URL.createObjectURL(file);
-
-    setCoverPreview(imageUrl);
-  }
-
   return (
     <main className="registration-page">
       <section className="registration-paper">
@@ -36,10 +20,7 @@ export function BookRegistration() {
           </p>
         </header>
 
-        <BookForm
-          coverPreview={coverPreview}
-          onCoverChange={handleCoverChange}
-        />
+        <BookForm />
 
       </section>
     </main>

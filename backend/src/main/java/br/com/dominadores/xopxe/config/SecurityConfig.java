@@ -13,7 +13,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.oauth2.client.registration.InMemoryClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.DefaultOAuth2AuthorizationRequestResolver;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestResolver;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
@@ -60,8 +64,11 @@ public class SecurityConfig {
                         .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/logout", "/api/auth/providers").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/books/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.PUT, "/api/books/**").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.DELETE, "/api/books/**").hasRole("ADMIN")
+                        // Com um * só pega /api/books/5. As avaliações (/api/books/5/reviews/mine)
+                        // continuam liberadas para qualquer usuário logado.
+                        .requestMatchers(HttpMethod.PUT, "/api/books/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/books/*").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
                 // Sem login, a API responde 401 em vez de redirecionar para a tela do Google.
                 .exceptionHandling(errors -> errors
@@ -69,12 +76,25 @@ public class SecurityConfig {
 
         // Só liga o login com Google se as credenciais estiverem no .env.
         if (google.isEnabled()) {
+            var clients = new InMemoryClientRegistrationRepository(google.clientRegistration());
             http.oauth2Login(oauth -> oauth
-                    .clientRegistrationRepository(new InMemoryClientRegistrationRepository(google.clientRegistration()))
+                    .clientRegistrationRepository(clients)
+                    .authorizationEndpoint(endpoint -> endpoint
+                            .authorizationRequestResolver(googleAccountChooser(clients)))
                     .successHandler(googleSuccessHandler));
         }
 
         return http.build();
+    }
+
+    // Faz o Google sempre mostrar a tela de escolher conta. Sem isso, com várias
+    // contas logadas no navegador, às vezes dava erro 400 no login.
+    private OAuth2AuthorizationRequestResolver googleAccountChooser(ClientRegistrationRepository clients) {
+        var resolver = new DefaultOAuth2AuthorizationRequestResolver(clients,
+                OAuth2AuthorizationRequestRedirectFilter.DEFAULT_AUTHORIZATION_REQUEST_BASE_URI);
+        resolver.setAuthorizationRequestCustomizer(request -> request
+                .additionalParameters(parameters -> parameters.put("prompt", "select_account")));
+        return resolver;
     }
 
     private CorsConfigurationSource corsConfigurationSource() {

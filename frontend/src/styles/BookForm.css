@@ -54,9 +54,17 @@
   object-fit: cover;
 }
 
+/* Igual aos outros campos, porque ele não está dentro de um .book-field. */
 .book-cover-input {
-  width: 190px;
-  font-size: 12px;
+  width: 100%;
+
+  padding: 10px 12px;
+
+  border: 1px solid var(--ink-muted);
+
+  background: var(--field);
+
+  font-size: 14px;
 }
 
 /* FIELDS */
@@ -96,14 +104,6 @@
   background: var(--field);
 
   font-size: 16px;
-
-  outline: none;
-}
-
-.book-field input:focus,
-.book-field select:focus,
-.book-field textarea:focus {
-  border: 2px solid var(--ink-muted);
 }
 
 .book-field textarea {

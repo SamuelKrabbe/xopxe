@@ -49,19 +49,16 @@ public class BookService {
 		bookRepository.deleteById(id);
 	}
 
-	/**
-	 * Valida os dados e copia para o livro. Usado pelo create e pelo update, para
-	 * as duas operações seguirem exatamente as mesmas regras.
-	 */
+	// Usado pelo create e pelo update, assim os dois validam do mesmo jeito.
 	private void apply(Book book, CreateBookRequest request) {
-		// Valida tudo antes de mexer na entidade (no update ela já está gerenciada).
+		// Primeiro valida tudo, só depois altera o livro.
 		String coverUrl = trimToNull(request.coverUrl());
 		if (coverUrl != null && !isHttpUrl(coverUrl)) {
 			throw badRequest("O endereço da capa deve ser uma URL HTTP ou HTTPS válida.");
 		}
 
-		// Guarda só o link que vale para o tipo de acesso; o outro fica null.
-		// No update isso também limpa o link antigo ao trocar FREE <-> PURCHASE.
+		// Só guarda o link do tipo de acesso escolhido, o outro fica null.
+		// Assim, se trocar de FREE para PURCHASE na edição, o link antigo some.
 		String pdfUrl = null;
 		String purchaseUrl = null;
 

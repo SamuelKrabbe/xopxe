@@ -1,62 +1,23 @@
-import { RATING_RANGES, YEAR_RANGES } from "../data/filter-options";
+import { YEAR_RANGES } from "../data/filter-options";
 import "../styles/Filters.css";
 
 const ANY = "";
-function traduzirGenero(generoOriginal) {
-  if (!generoOriginal) return "Outros";
-  
-  const g = generoOriginal.toLowerCase();
 
-  if (g.includes("juvenile")) return "Ficção Infantojuvenil";
-  if (g.includes("fiction") || g.includes("ficção")) return "Ficção";
-  
-  if (g.includes("poetry") || g.includes("poesia")) return "Poesia";
-  if (g.includes("biography") || g.includes("machado de assis")) return "Biografia";
-  if (g.includes("history") || g.includes("história")) return "História";
-  if (g.includes("philosophy") || g.includes("filosofia")) return "Filosofia";
-  if (g.includes("business") || g.includes("economics")) return "Economia";
-  if (g.includes("antiques") || g.includes("collectibles")) return "Antiguidades e Colecionáveis";
-  
-  // Adicionada a palavra "literary" para capturar "Literary Collections"
-  if (g.includes("literatur") || g.includes("literary") || g.includes("authors") || g.includes("brasilianisch") || g.includes("criticism")) {
-    return "Literatura";
-  }
+function uniqueOptions(books, field) {
+  const values = [...new Set(books.map((book) => book[field]).filter(Boolean))];
 
-  return generoOriginal; 
+  return values
+    .sort((a, b) => a.localeCompare(b, "pt-BR"))
+    .map((value) => ({ value, label: value }));
 }
 
-function getGenreOptions(booksList) {
-  if (!booksList) return [];
+// Só mostra as faixas que têm algum livro, para o filtro não zerar a lista.
+function yearOptions(books) {
+  const years = books.map((book) => Number(book.publicationDate?.substring(0, 4)));
 
-  // O Map garante que cada etiqueta em português (chave) só é registada uma única vez
-  const categoriasUnicas = new Map();
-
-  booksList.forEach(b => {
-    if (!b.genre) return;
-    const etiquetaTraduzida = traduzirGenero(b.genre);
-    
-    // Se a categoria traduzida ainda não estiver no Map, adicionamos juntamente com o valor original
-    if (!categoriasUnicas.has(etiquetaTraduzida)) {
-      categoriasUnicas.set(etiquetaTraduzida, b.genre);
-    }
-  });
-
-  // Converte o Map de volta para a lista de opções do Select
-  return Array.from(categoriasUnicas.entries()).map(([label, value]) => ({
-    value: value,
-    label: label
-  })).sort((a, b) => a.label.localeCompare(b.label, "pt-BR"));
-}
-
-// Função genérica para Autor e Editora (onde o valor é igual à tela)
-function getOptions(booksList, field) {
-  if (!booksList) return [];
-  const values = [...new Set(booksList.map(b => b[field]).filter(Boolean))];
-  
-  return values.map(val => ({
-    value: val,
-    label: String(val)
-  })).sort((a, b) => a.label.localeCompare(b.label, "pt-BR"));
+  return YEAR_RANGES.filter((range) =>
+    years.some((year) => year >= range.min && year <= range.max),
+  );
 }
 
 export function Filters({ books = [], filters, onFilterChange }) {
@@ -67,7 +28,7 @@ export function Filters({ books = [], filters, onFilterChange }) {
         label="Gênero"
         anyLabel="Todos"
         value={filters.genre}
-        options={getGenreOptions(books)}
+        options={uniqueOptions(books, "genre")}
         onChange={onFilterChange}
       />
 
@@ -76,7 +37,7 @@ export function Filters({ books = [], filters, onFilterChange }) {
         label="Autor"
         anyLabel="Todos"
         value={filters.author}
-        options={getOptions(books, "author")}
+        options={uniqueOptions(books, "author")}
         onChange={onFilterChange}
       />
 
@@ -85,7 +46,7 @@ export function Filters({ books = [], filters, onFilterChange }) {
         label="Editora"
         anyLabel="Todas"
         value={filters.publisher}
-        options={getOptions(books, "publisher")}
+        options={uniqueOptions(books, "publisher")}
         onChange={onFilterChange}
       />
 
@@ -94,16 +55,7 @@ export function Filters({ books = [], filters, onFilterChange }) {
         label="Ano de publicação"
         anyLabel="Todos"
         value={filters.year}
-        options={YEAR_RANGES}
-        onChange={onFilterChange}
-      />
-
-      <FilterSelect
-        id="rating"
-        label="Classificação"
-        anyLabel="Todas"
-        value={filters.rating}
-        options={RATING_RANGES}
+        options={yearOptions(books)}
         onChange={onFilterChange}
       />
     </div>

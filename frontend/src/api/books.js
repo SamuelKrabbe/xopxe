@@ -1,40 +1,8 @@
-const BASE_URL = "http://localhost:8080";
+import { request } from "./client";
 
-async function request(method, path, body) {
-  let response;
-  try {
-    response = await fetch(`${BASE_URL}${path}`, {
-      method,
-      credentials: "include", 
-      headers: body ? { "Content-Type": "application/json" } : undefined,
-      body: body ? JSON.stringify(body) : undefined,
-    });
-  } catch {
-    throw new Error("Não foi possível falar com o servidor. Ele está ligado?");
-  }
-
-  const data = await response.json().catch(() => null);
-
-  if (!response.ok) {
-    throw new Error(data?.message ?? "Não foi possível concluir a operação.");
-  }
-
-  return data;
-}
-
-export function fetchBooks(query = "", genre = "") {
-  const params = new URLSearchParams();
-  
-  if (query) {
-    params.append("q", query);
-  }
-  
-  if (genre && genre !== "Todos") {
-    params.append("genre", genre);
-  }
-
-  const queryString = params.toString() ? `?${params.toString()}` : "";
-  return request("GET", `/api/books${queryString}`);
+// Busca todos os livros. A busca e os filtros são feitos na própria tela (MainPage).
+export function fetchBooks() {
+  return request("GET", "/api/books");
 }
 
 export function fetchBookById(id) {

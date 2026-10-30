@@ -1,11 +1,10 @@
-import hero from "../assets/hero.png";
-import { books } from "../data/books-mock";
 import "../styles/DefaultInfo.css";
 import imagemCapa from '../assets/capa.png';
 
-export function DefaultInfo() {
-  const topBooks = [...books]
-    .sort((a, b) => b.rating - a.rating)
+export function DefaultInfo({ books }) {
+  // Mostra os últimos livros cadastrados.
+  const recentBooks = [...books]
+    .sort((a, b) => b.id - a.id)
     .slice(0, 5);
 
   return (
@@ -20,16 +19,14 @@ export function DefaultInfo() {
       <div className="default-info__ranking">
 
         <ol className="default-info__ranking-list">
-          {topBooks.map((book) => (
+          {recentBooks.map((book) => (
             <li key={book.id} className="default-info__ranking-item">
               <span className="default-info__ranking-book">
                 {book.title}
               </span>
 
-              <span className="default-info__ranking-rating">
-                <span aria-hidden="true">★ </span>
-                <span className="sr-only">Nota </span>
-                ★ {book.rating.toFixed(1).replace(".", ",")}
+              <span className="default-info__ranking-author">
+                {book.author}
               </span>
             </li>
           ))}

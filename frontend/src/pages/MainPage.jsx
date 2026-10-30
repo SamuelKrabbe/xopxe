@@ -6,8 +6,8 @@ import {
   Filters,
   SearchBar,
 } from "../components";
-import { findRatingRange, findYearRange } from "../data/filter-options";
-import { fetchBooks } from "../api/books"; 
+import { findYearRange } from "../data/filter-options";
+import { fetchBooks } from "../api/books";
 import "../styles/MainPage.css";
 
 const EMPTY_FILTERS = {
@@ -15,7 +15,6 @@ const EMPTY_FILTERS = {
   author: "",
   publisher: "",
   year: "",
-  rating: "",
 };
 
 function matchesSearch(book, search) {
@@ -54,35 +53,21 @@ function matchesFilters(book, filters) {
     }
   }
 
-  if (filters.rating !== "") {
-    const range = findRatingRange(filters.rating);
-
-    const bookRating = book.rating || 5.0;
-
-    if (bookRating < range.min) {
-      return false;
-    }
-  }
-
   return true;
 }
 
-export function MainPage() {
+export function MainPage({ user }) {
   const [search, setSearch] = useState("");
   const [filters, setFilters] = useState(EMPTY_FILTERS);
   const [selectedBook, setSelectedBook] = useState(null);
-  
   const [books, setBooks] = useState([]);
+  const [loadError, setLoadError] = useState("");
 
   useEffect(() => {
-    fetchBooks(search, filters.genre)
-      .then((data) => {
-        setBooks(data);
-      })
-      .catch((error) => {
-        console.error("Erro ao procurar os livros na API:", error);
-      });
-  }, [search, filters.genre]);
+    fetchBooks()
+      .then(setBooks)
+      .catch((error) => setLoadError(error.message));
+  }, []);
 
   const visibleBooks = books.filter(
     (book) => matchesSearch(book, search) && matchesFilters(book, filters),
@@ -99,23 +84,31 @@ export function MainPage() {
 
         <h2 className="main-page__section-title">Lançamentos</h2>
 
-        <BooksCatalog
-          books={visibleBooks}
-          selectedBook={selectedBook}
-          onSelect={setSelectedBook}
-        />
+        {/* Mostra o erro da API, senão parecia que nenhum livro bateu com os filtros. */}
+        {loadError ? (
+          <p className="main-page__error" role="alert">
+            {loadError} Recarregue a página para tentar de novo.
+          </p>
+        ) : (
+          <BooksCatalog
+            books={visibleBooks}
+            selectedBook={selectedBook}
+            onSelect={setSelectedBook}
+          />
+        )}
       </div>
 
       <aside className="main-page__side">
-        <Filters 
-        books={books}
-        filters={filters} 
-        onFilterChange={handleFilterChange} />
+        <Filters
+          books={books}
+          filters={filters}
+          onFilterChange={handleFilterChange}
+        />
 
         {selectedBook ? (
-          <BooksInfo selectedBook={selectedBook} />
+          <BooksInfo key={selectedBook.id} selectedBook={selectedBook} user={user} />
         ) : (
-          <DefaultInfo />
+          <DefaultInfo books={books} />
         )}
       </aside>
     </main>

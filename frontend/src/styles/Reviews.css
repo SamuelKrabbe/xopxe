@@ -1,0 +1,117 @@
+/* LISTA */
+
+.review--stacked {
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.review__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+
+  gap: 10px;
+
+  width: 100%;
+}
+
+.review__stars {
+  white-space: nowrap;
+}
+
+.review__comment {
+  margin: 0;
+
+  font-size: 14px;
+  overflow-wrap: anywhere;
+}
+
+/* FORMULÁRIO */
+
+.review-form__label {
+  display: block;
+
+  margin-bottom: 6px;
+
+  font-size: 13px;
+}
+
+.review-form__comment {
+  width: 100%;
+  min-height: 80px;
+
+  padding: 8px 10px;
+
+  border: 1px solid var(--ink-muted);
+
+  background: var(--card-alt);
+
+  font: inherit;
+  font-size: 14px;
+
+  resize: vertical;
+}
+
+.review-form__error,
+.review-form__status {
+  margin: 8px 0 0;
+
+  font-size: 13px;
+}
+
+.review-form__error {
+  color: #8b1e1e;
+}
+
+.review-form__actions {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 10px;
+
+  margin-top: 12px;
+}
+
+.review-form__actions .book-info__action:disabled {
+  opacity: 0.6;
+
+  cursor: wait;
+}
+
+.review-form__delete {
+  padding: 10px 16px;
+
+  border: 2px solid var(--ink);
+
+  background: transparent;
+
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+/* MODERAÇÃO */
+
+.review__moderate {
+  align-self: flex-start;
+
+  padding: 4px 10px;
+
+  border: 1px solid var(--ink);
+
+  background: transparent;
+
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+
+  cursor: pointer;
+}
+
+.review__moderate:hover {
+  background: var(--ink);
+  color: var(--card);
+}

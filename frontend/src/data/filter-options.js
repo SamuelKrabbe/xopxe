@@ -5,16 +5,6 @@ export const YEAR_RANGES = [
   { value: "0", label: "Antes de 1800", min: 0, max: 1799 },
 ];
 
-export const RATING_RANGES = [
-  { value: "4.5", label: "★★★★★", min: 4.5 },
-  { value: "3.5", label: "★★★★", min: 3.5 },
-  { value: "2.5", label: "★★★", min: 2.5 },
-];
-
 export function findYearRange(value) {
   return YEAR_RANGES.find((range) => range.value === value);
-}
-
-export function findRatingRange(value) {
-  return RATING_RANGES.find((range) => range.value === value);
 }

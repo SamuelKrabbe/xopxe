@@ -35,7 +35,7 @@ public class Book {
 	@Column(nullable = false)
 	private String publisher;
 
-	/** Texto livre — o front manda o rótulo escolhido no <select>. */
+	/** Texto livre, o front manda o que foi escolhido no <select>. */
 	@Column(nullable = false)
 	private String genre;
 

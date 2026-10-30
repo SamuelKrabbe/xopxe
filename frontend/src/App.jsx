@@ -17,6 +17,11 @@ function App() {
       .catch((problem) => console.error(problem));
   }, []);
 
+  function handleLogout() {
+    setUser(null);
+    setPage("home");
+  }
+
   return (
     <>
       <div className="app-top">
@@ -25,13 +30,17 @@ function App() {
           page={page}
           onNavigate={setPage}
           onLogin={setUser}
-          onLogout={() => setUser(null)}
+          onLogout={handleLogout}
         />
       </div>
 
-      {page === "home" && <MainPage />}
+      {page === "home" && <MainPage user={user} />}
 
-      {page === "registration" && <BookRegistration />}
+      {page === "registration" && user?.role === "ADMIN" && <BookRegistration />}
+
+      <footer className="app-footer">
+        <p>Xopxe · Trabalho de Programação Web · UFMS 2026</p>
+      </footer>
     </>
   );
 }
