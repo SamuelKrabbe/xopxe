@@ -93,6 +93,20 @@ class BookServiceTest {
 		assertBadRequest(request("javascript:alert(1)", BookAccessType.FREE, "https://exemplo.com/hobbit.pdf", null));
 	}
 
+	@Test
+	void createAcceptsUploadedCover() {
+		when(bookRepository.save(any(Book.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+		Book saved = bookService.create(request("/api/books/covers/7", BookAccessType.PURCHASE, null, "https://loja.com/hobbit"));
+
+		assertThat(saved.getCoverUrl()).isEqualTo("/api/books/covers/7");
+	}
+
+	@Test
+	void createRejectsOtherLocalPaths() {
+		assertBadRequest(request("/api/books/covers/../../auth/logout", BookAccessType.PURCHASE, null, "https://loja.com/hobbit"));
+	}
+
 	private void assertBadRequest(CreateBookRequest request) {
 		assertThatThrownBy(() -> bookService.create(request))
 				.isInstanceOf(ResponseStatusException.class)

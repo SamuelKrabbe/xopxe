@@ -67,6 +67,12 @@
   font-size: 14px;
 }
 
+.book-cover-status {
+  margin: 0;
+
+  font-size: 14px;
+}
+
 /* FIELDS */
 
 .book-form__fields {
@@ -121,6 +127,8 @@
   border-top: 1px solid var(--ink-muted);
 
   display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
   justify-content: flex-end;
 }
 

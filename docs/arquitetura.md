@@ -33,7 +33,10 @@ backend/src/main/
 │   │   ├── BookRepository.java   repositório
 │   │   ├── BookService.java      regras de negócio
 │   │   ├── BookController.java   rotas HTTP
-│   │   └── BookDtos.java         dados que entram e saem da API
+│   │   ├── BookDtos.java         dados que entram e saem da API
+│   │   ├── Cover.java            entidade JPA da imagem de capa
+│   │   ├── CoverRepository.java
+│   │   └── CoverController.java  envio e leitura das capas
 │   ├── review/
 │   │   ├── Review.java           entidade JPA
 │   │   ├── ReviewRepository.java
@@ -65,7 +68,7 @@ backend/src/main/
 
 ### Entidades (JPA)
 
-`Book`, `User` e `Review` são as classes anotadas com `@Entity`. Cada uma
+`Book`, `User`, `Review` e `Cover` são as classes anotadas com `@Entity`. Cada uma
 representa uma tabela do banco.
 
 ```java
@@ -82,7 +85,7 @@ public class Book {
 ```
 
 Quem cria as tabelas é o Flyway, com os scripts SQL em `db/migration/` (V1 a
-V5). O Hibernate está configurado com `ddl-auto: validate`, ou seja, ele só
+V6). O Hibernate está configurado com `ddl-auto: validate`, ou seja, ele só
 confere se as entidades batem com o banco e não altera nada.
 
 ### DTOs
@@ -138,6 +141,8 @@ São as classes `@RestController` com as rotas:
 | POST | `/api/books` | ADMIN |
 | PUT | `/api/books/{id}` | ADMIN |
 | DELETE | `/api/books/{id}` | ADMIN |
+| POST | `/api/books/covers` | ADMIN |
+| GET | `/api/books/covers/{id}` | público |
 | GET | `/api/books/{id}/reviews` | público |
 | PUT | `/api/books/{id}/reviews/mine` | logado |
 | DELETE | `/api/books/{id}/reviews/mine` | logado |
@@ -198,7 +203,7 @@ navegador manda o cookie da sessão sem configuração extra.
 
 ## 4. Diagrama de classes
 
-As três entidades do banco e os dois enums.
+As quatro entidades do banco e os dois enums.
 
 ```mermaid
 classDiagram
@@ -232,6 +237,12 @@ classDiagram
         +Instant updatedAt
     }
 
+    class Cover {
+        +Long id
+        +String contentType
+        +byte[] data
+    }
+
     class BookAccessType {
         <<enumeration>>
         FREE
@@ -258,6 +269,13 @@ classDiagram
 `Review` vira a tabela `reviews` e liga um usuário a um livro, com a nota de 1
 a 5 e um comentário opcional. A tabela tem uma restrição `UNIQUE (book_id,
 user_id)`, que impede duas avaliações da mesma pessoa no mesmo livro.
+
+`Cover` vira a tabela `covers` e guarda a imagem de capa escolhida no
+formulário. O admin escolhe o arquivo no computador, o front envia para
+`POST /api/books/covers` e recebe o endereço `/api/books/covers/{id}`, que vai
+para o `coverUrl` do livro. A imagem fica no banco, e não numa pasta, porque o
+disco do Render é apagado a cada deploy. Só são aceitos JPG, PNG, WEBP e GIF
+de até 2 MB.
 
 ## 5. Como rodar
 

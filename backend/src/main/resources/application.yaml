@@ -16,6 +16,12 @@ spring:
   flyway:
     enabled: true
 
+  # Tamanho máximo da capa enviada. O front confere antes de mandar.
+  servlet:
+    multipart:
+      max-file-size: 2MB
+      max-request-size: 3MB
+
   # O front só precisa da mensagem do erro, não da pilha de exceção inteira.
   web:
     error:

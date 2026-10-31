@@ -42,3 +42,23 @@ export function updateBook(id, bookData) {
 export function deleteBook(id) {
   return request("DELETE", `/api/books/${id}`);
 }
+
+// Envia a imagem da capa e devolve o endereço dela no backend (/api/books/covers/{id}).
+// Não usa o request() porque o corpo é um arquivo, não JSON.
+export async function uploadCover(file) {
+  const body = new FormData();
+  body.append("file", file);
+
+  let response;
+  try {
+    response = await fetch("/api/books/covers", { method: "POST", body });
+  } catch {
+    throw new Error("Não foi possível falar com o servidor. Ele está ligado?");
+  }
+
+  const data = await response.json().catch(() => null);
+  if (!response.ok) {
+    throw new Error(data?.message ?? "Não foi possível enviar a imagem.");
+  }
+  return data.url;
+}

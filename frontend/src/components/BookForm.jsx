@@ -1,8 +1,11 @@
-import { useCallback, useState } from "react";
-import { createBook, updateBook } from "../api/books";
+import { useCallback, useRef, useState } from "react";
+import { createBook, updateBook, uploadCover } from "../api/books";
 import { GENRES } from "../data/genres";
 import { Toast } from "./Toast";
 import "../styles/BookForm.css";
+
+// Igual ao limite do backend (application.yaml).
+const MAX_COVER_BYTES = 2 * 1024 * 1024;
 
 const EMPTY_FORM = {
   title: "",
@@ -28,16 +31,42 @@ export function BookForm({ book = null, onSaved = null, onCancel = null }) {
   // useCallback para a função não mudar a cada render, senão o Toast reinicia o timer.
   const closeToast = useCallback(() => setToast(null), []);
   const [coverFailed, setCoverFailed] = useState(false);
+  const [isUploading, setIsUploading] = useState(false);
+  const fileInputRef = useRef(null);
   // Usado no max do campo de data, para não deixar escolher data futura.
   const today = new Date().toISOString().slice(0, 10);
 
   function handleChange(event) {
     const { name, value } = event.target;
-    if (name === "coverUrl") setCoverFailed(false);
     setFormData((previous) => ({
       ...previous,
       [name]: value,
     }));
+  }
+
+  // A imagem sobe assim que é escolhida; o livro guarda só o endereço que o backend devolve.
+  async function handleCoverChange(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (file.size > MAX_COVER_BYTES) {
+      event.target.value = "";
+      setToast({ kind: "error", message: "A imagem deve ter no máximo 2 MB." });
+      return;
+    }
+
+    setIsUploading(true);
+    setToast(null);
+    try {
+      const url = await uploadCover(file);
+      setCoverFailed(false);
+      setFormData((previous) => ({ ...previous, coverUrl: url }));
+    } catch (error) {
+      event.target.value = "";
+      setToast({ kind: "error", message: error.message });
+    } finally {
+      setIsUploading(false);
+    }
   }
 
   async function handleSubmit(event) {
@@ -60,6 +89,7 @@ export function BookForm({ book = null, onSaved = null, onCancel = null }) {
         onSaved?.(saved);
       } else {
         setFormData(EMPTY_FORM);
+        fileInputRef.current.value = "";
       }
       setToast({ kind: "success", message: `Obra "${livroParaSalvar.title}" ${editing ? "atualizada" : "cadastrada"} com sucesso.` });
     } catch (error) {
@@ -74,7 +104,7 @@ export function BookForm({ book = null, onSaved = null, onCancel = null }) {
       <div className="book-form__main">
         {/* BOOK COVER */}
         <div className="book-cover-section">
-          <label htmlFor="coverUrl" className="book-cover-title">Capa do livro (Link)</label>
+          <label htmlFor="coverFile" className="book-cover-title">Capa do livro</label>
           
           <div className="book-cover-preview">
             {formData.coverUrl && !coverFailed ? (
@@ -86,20 +116,22 @@ export function BookForm({ book = null, onSaved = null, onCancel = null }) {
             ) : coverFailed ? (
               <span>Não foi possível<br />abrir essa imagem</span>
             ) : (
-              <span>Cole o link<br />da imagem</span>
+              <span>Escolha uma<br />imagem</span>
             )}
           </div>
 
+          {/* Na edição o livro já tem capa, então escolher outra é opcional. */}
           <input
-            id="coverUrl"
-            name="coverUrl"
-            type="url"
+            id="coverFile"
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
             className="book-cover-input"
-            value={formData.coverUrl}
-            onChange={handleChange}
-            placeholder="http://..."
-            required
+            onChange={handleCoverChange}
+            disabled={isUploading || isSending}
+            required={!formData.coverUrl}
           />
+          {isUploading && <p className="book-cover-status" role="status">Enviando imagem...</p>}
         </div>
 
         {/* BOOK INFORMATION */}
@@ -233,7 +265,7 @@ export function BookForm({ book = null, onSaved = null, onCancel = null }) {
       </div>
 
       <div className="book-form__actions">
-        <button type="submit" className="book-form__button" disabled={isSending}>
+        <button type="submit" className="book-form__button" disabled={isSending || isUploading}>
           {isSending ? "Salvando..." : editing ? "Salvar alterações" : "Cadastrar obra"}
         </button>
         {editing && onCancel && (
