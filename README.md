@@ -2,7 +2,14 @@
 
 Trabalho de Programação Web: site de acervo de livros com cadastro, avaliações e leitor de PDF. Feito com Spring Boot, React e PostgreSQL.
 
-Autores: Samuel O. Krabbe, Severino, Jenniffer O. Checchia, João Gabriel, Júlio Oliveira Campos Ferreira
+Autores:
+
+- Samuel de Oliveira Krabbe (RGA 202219040167)
+- Severino José Lopes Fernandes (RGA 202519060546)
+- Karoline Dambros Domingues (RGA 202519060791)
+- João Gabriel Casagrande M.T. Salomão (RGA 202519060708)
+- Julio Oliveira Campos Ferreira (RGA 202519060210)
+- Jenniffer Oliveira Checchia (RGA 202319040622)
 
 Site online: https://xopxe.vercel.app (o backend fica no plano grátis do Render e pode levar até 1 minuto para acordar no primeiro acesso)
 
