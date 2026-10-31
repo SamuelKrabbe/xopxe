@@ -2,8 +2,8 @@
 FROM docker.io/library/eclipse-temurin:25-jdk AS build
 WORKDIR /app
 
-# Baixa as dependências antes de copiar o código: enquanto o pom.xml não muda,
-# o Docker reaproveita esta camada e o build fica bem mais rápido.
+# Baixa as dependências antes de copiar o código, o Docker reaproveita
+# esta camada enquanto o pom.xml não muda.
 COPY .mvn .mvn
 COPY mvnw pom.xml ./
 RUN ./mvnw -B -q dependency:go-offline

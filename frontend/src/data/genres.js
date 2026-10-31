@@ -1,5 +1,4 @@
-// Lista fixa de gêneros. O cadastro e o importador só usam esses nomes,
-// então o filtro pode comparar o texto direto.
+// Lista fixa de gêneros, usada no cadastro, no importador e no filtro.
 export const GENRES = [
   "Biografia",
   "Economia",

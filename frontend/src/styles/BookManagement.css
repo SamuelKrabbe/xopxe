@@ -1,5 +1,5 @@
 .management { display: grid; gap: 1rem; }
-.management__search { width: 100%; box-sizing: border-box; padding: .8rem 1rem; border: 1px solid #a99c83; background: transparent; color: inherit; font: inherit; }
+.management__search { width: 100%; box-sizing: border-box; padding: .8rem 1rem; border: 1px solid var(--ink-muted); background: transparent; color: inherit; font: inherit; }
 .management__count { margin: 0; opacity: .7; }
 .management__list { list-style: none; padding: 0; margin: 0; display: grid; }
 .management__item { display: flex; justify-content: space-between; align-items: center; gap: 1rem; border-top: 1px solid #b9ab90; padding: 1rem 0; }

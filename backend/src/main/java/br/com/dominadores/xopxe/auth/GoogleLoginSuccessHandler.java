@@ -30,7 +30,7 @@ public class GoogleLoginSuccessHandler implements AuthenticationSuccessHandler {
         String email = googleUser.getAttribute("email");
         Boolean emailVerified = googleUser.getAttribute("email_verified");
 
-        // Sem e-mail confirmado pelo Google, alguém poderia entrar na conta de outra pessoa.
+        // Só aceita e-mail verificado pelo Google.
         if (email == null || !Boolean.TRUE.equals(emailVerified)) {
             sessionLogin.signOut(request);
             response.sendRedirect("/");

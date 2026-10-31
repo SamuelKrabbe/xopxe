@@ -87,7 +87,7 @@ export function MainPage({ user }) {
 
         <h2 className="main-page__section-title">Lançamentos</h2>
 
-        {/* Mostra o erro da API, senão parecia que nenhum livro bateu com os filtros. */}
+        {/* Erro da API, separado de "nenhum livro encontrado". */}
         {loadError && books.length === 0 ? (
           <p className="main-page__error" role="alert">
             {loadError} Recarregue a página para tentar de novo.

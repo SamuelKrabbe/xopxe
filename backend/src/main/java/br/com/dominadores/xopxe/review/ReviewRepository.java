@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
 
-	/** Já busca o usuário junto, para não fazer uma consulta para cada avaliação. */
+	/** Busca o usuário junto, na mesma consulta. */
 	@EntityGraph(attributePaths = "user")
 	List<Review> findByBookIdOrderByUpdatedAtDesc(Long bookId);
 

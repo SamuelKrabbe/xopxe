@@ -26,8 +26,7 @@ public class BookSeeder implements CommandLineRunner {
     private final BookService bookService;
     private final JsonMapper jsonMapper;
 
-    // Tudo numa transação só: se um livro der erro, nenhum é salvo e ele tenta
-    // de novo na próxima vez que o backend subir.
+    // Tudo numa transação: se um livro der erro, nenhum é salvo.
     @Override
     @Transactional
     public void run(String... args) throws IOException {
@@ -35,7 +34,7 @@ public class BookSeeder implements CommandLineRunner {
             return;
         }
 
-        // Usa o BookService para passar pela mesma validação do cadastro.
+        // Mesma validação do cadastro.
         for (CreateBookRequest book : readSeedFile()) {
             bookService.create(book);
         }

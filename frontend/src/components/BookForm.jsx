@@ -4,7 +4,7 @@ import { GENRES } from "../data/genres";
 import { Toast } from "./Toast";
 import "../styles/BookForm.css";
 
-// Igual ao limite do backend (application.yaml).
+// Mesmo limite do backend (application.yaml).
 const MAX_COVER_BYTES = 2 * 1024 * 1024;
 
 const EMPTY_FORM = {
@@ -20,20 +20,33 @@ const EMPTY_FORM = {
   purchaseUrl: "",
 };
 
+// Na edição o formulário começa com os dados do livro. Link null vira "".
+function formFromBook(book) {
+  return {
+    title: book.title,
+    author: book.author,
+    publisher: book.publisher,
+    genre: book.genre,
+    publicationDate: book.publicationDate,
+    synopsis: book.synopsis,
+    coverUrl: book.coverUrl ?? "",
+    accessType: book.accessType,
+    pdfUrl: book.pdfUrl ?? "",
+    purchaseUrl: book.purchaseUrl ?? "",
+  };
+}
+
 export function BookForm({ book = null, onSaved = null, onCancel = null }) {
   const editing = book !== null;
-  const [formData, setFormData] = useState(() => book ? {
-    ...EMPTY_FORM,
-    ...Object.fromEntries(Object.keys(EMPTY_FORM).map(key => [key, book[key] ?? EMPTY_FORM[key]])),
-  } : EMPTY_FORM);
+  const [formData, setFormData] = useState(book ? formFromBook(book) : EMPTY_FORM);
   const [toast, setToast] = useState(null);
   const [isSending, setIsSending] = useState(false);
-  // useCallback para a função não mudar a cada render, senão o Toast reinicia o timer.
+  // useCallback: com uma função nova a cada render o Toast reinicia o timer.
   const closeToast = useCallback(() => setToast(null), []);
   const [coverFailed, setCoverFailed] = useState(false);
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef(null);
-  // Usado no max do campo de data, para não deixar escolher data futura.
+  // Data máxima do campo de publicação: hoje.
   const today = new Date().toISOString().slice(0, 10);
 
   function handleChange(event) {
@@ -44,7 +57,7 @@ export function BookForm({ book = null, onSaved = null, onCancel = null }) {
     }));
   }
 
-  // A imagem sobe assim que é escolhida; o livro guarda só o endereço que o backend devolve.
+  // A imagem é enviada ao escolher o arquivo. O livro só guarda o endereço.
   async function handleCoverChange(event) {
     const file = event.target.files[0];
     if (!file) return;
@@ -85,13 +98,14 @@ export function BookForm({ book = null, onSaved = null, onCancel = null }) {
       const saved = editing
         ? await updateBook(book.id, livroParaSalvar)
         : await createBook(livroParaSalvar);
+      // Na edição o aviso aparece na tela de gerenciar.
       if (editing) {
         onSaved?.(saved);
       } else {
         setFormData(EMPTY_FORM);
         fileInputRef.current.value = "";
+        setToast({ kind: "success", message: `Obra "${livroParaSalvar.title}" cadastrada com sucesso.` });
       }
-      setToast({ kind: "success", message: `Obra "${livroParaSalvar.title}" ${editing ? "atualizada" : "cadastrada"} com sucesso.` });
     } catch (error) {
       setToast({ kind: "error", message: `Não foi possível salvar a obra: ${error.message}` });
     } finally {
@@ -120,7 +134,7 @@ export function BookForm({ book = null, onSaved = null, onCancel = null }) {
             )}
           </div>
 
-          {/* Na edição o livro já tem capa, então escolher outra é opcional. */}
+          {/* Na edição a nova capa é opcional. */}
           <input
             id="coverFile"
             ref={fileInputRef}

@@ -53,24 +53,22 @@ public class SecurityConfig {
             GoogleLoginSuccessHandler googleSuccessHandler) throws Exception {
         http
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-                // Projeto de faculdade: o front ainda não manda token CSRF.
+                // CSRF desligado, o front não manda token.
                 .csrf(csrf -> csrf.disable())
                 .securityContext(context -> context.securityContextRepository(securityContextRepository()))
                 .authorizeHttpRequests(auth -> auth
-                        // Sem o /error liberado, um 409 vira 401 na volta: o Spring reenvia a
-                        // resposta de erro por /error, que cairia no authenticated() lá embaixo.
+                        // /error liberado para os erros da API (404, 409...) não virarem 401.
                         .requestMatchers("/error").permitAll()
                         .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/auth/login", "/api/auth/register", "/api/auth/logout", "/api/auth/providers").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/books/**").permitAll()
                         .requestMatchers(HttpMethod.POST, "/api/books/**").hasRole("ADMIN")
-                        // Com um * só pega /api/books/5. As avaliações (/api/books/5/reviews/mine)
-                        // continuam liberadas para qualquer usuário logado.
+                        // Um * só pega /api/books/5, não /api/books/5/reviews.
                         .requestMatchers(HttpMethod.PUT, "/api/books/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/books/*").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/reviews/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                // Sem login, a API responde 401 em vez de redirecionar para a tela do Google.
+                // Sem login a API responde 401, sem redirecionar para o Google.
                 .exceptionHandling(errors -> errors
                         .authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED)));
 

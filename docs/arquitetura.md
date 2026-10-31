@@ -193,7 +193,7 @@ com o reset e `panel.css`) são carregados no `main.jsx`. As classes seguem o
 padrão BEM, como `.book-card__title`.
 
 O estado fica no componente pai que precisa dele e desce por props. O `App`
-guarda a página atual e o usuário logado; a `MainPage` guarda a lista de
+guarda a página atual e o usuário logado, e a `MainPage` guarda a lista de
 livros, a busca, os filtros e o livro selecionado.
 
 Todas as chamadas passam pelo `api/client.js`. Os caminhos começam com `/api`

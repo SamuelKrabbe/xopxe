@@ -16,8 +16,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-/** Testa o envio da capa: só o admin envia, só imagem passa e qualquer um vê. */
-// @Transactional desfaz o que o teste gravou, para não sujar o banco de desenvolvimento.
+/** Testes do upload da capa. */
+// Com @Transactional o que o teste salva no banco é desfeito no final.
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
@@ -49,6 +49,15 @@ class CoverControllerTest {
 	@WithMockUser(roles = "ADMIN")
 	void rejectsFilesThatAreNotImages() throws Exception {
 		var file = new MockMultipartFile("file", "capa.svg", "image/svg+xml", "<svg/>".getBytes());
+
+		mockMvc.perform(multipart("/api/books/covers").file(file))
+				.andExpect(status().isBadRequest());
+	}
+
+	@Test
+	@WithMockUser(roles = "ADMIN")
+	void rejectsFileWithoutType() throws Exception {
+		var file = new MockMultipartFile("file", "capa.png", null, PNG);
 
 		mockMvc.perform(multipart("/api/books/covers").file(file))
 				.andExpect(status().isBadRequest());

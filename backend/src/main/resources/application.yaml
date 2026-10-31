@@ -8,7 +8,7 @@ spring:
     password: xopxe
 
   jpa:
-    # O Flyway é o dono do schema; o Hibernate só confere se bate com as entidades.
+    # Quem cria as tabelas é o Flyway. O Hibernate só confere se bate com as entidades.
     hibernate:
       ddl-auto: validate
     open-in-view: false
@@ -16,13 +16,13 @@ spring:
   flyway:
     enabled: true
 
-  # Tamanho máximo da capa enviada. O front confere antes de mandar.
+  # Tamanho máximo da imagem da capa.
   servlet:
     multipart:
       max-file-size: 2MB
       max-request-size: 3MB
 
-  # O front só precisa da mensagem do erro, não da pilha de exceção inteira.
+  # Os erros devolvem só a mensagem, sem a pilha.
   web:
     error:
       include-message: always
@@ -33,9 +33,16 @@ xopxe:
   cors:
     allowed-origin: http://localhost:5173
 
-  # Login com Google. Os valores vêm do .env; se ficarem vazios, o login com Google fica desligado.
+  # Login com Google. Valores do .env, vazio desliga o login com Google.
   google:
     client-id: ${GOOGLE_CLIENT_ID:}
     client-secret: ${GOOGLE_CLIENT_SECRET:}
-    # Endereço de volta do Google. Só é definido no Render; vazio, o Spring monta sozinho.
+    # Endereço de volta do Google. Só definido no Render.
     redirect-uri: ${GOOGLE_REDIRECT_URI:}
+
+# O cookie de sessão não vai em formulários de outros sites.
+server:
+  servlet:
+    session:
+      cookie:
+        same-site: lax

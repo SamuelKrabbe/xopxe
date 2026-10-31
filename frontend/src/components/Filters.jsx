@@ -11,7 +11,7 @@ function uniqueOptions(books, field) {
     .map((value) => ({ value, label: value }));
 }
 
-// Só mostra as faixas que têm algum livro, para o filtro não zerar a lista.
+// Só mostra as faixas que têm algum livro.
 function yearOptions(books) {
   const years = books.map((book) => Number(book.publicationDate?.substring(0, 4)));
 

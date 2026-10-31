@@ -54,7 +54,7 @@
   object-fit: cover;
 }
 
-/* Igual aos outros campos, porque ele não está dentro de um .book-field. */
+/* Mesmo estilo dos campos .book-field. */
 .book-cover-input {
   width: 100%;
 

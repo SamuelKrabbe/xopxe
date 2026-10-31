@@ -33,7 +33,7 @@ public class SessionLogin {
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
 
-        // Grava na sessão; o navegador recebe o cookie JSESSIONID.
+        // Salva na sessão e o navegador recebe o cookie JSESSIONID.
         securityContextRepository.saveContext(context, request, response);
     }
 

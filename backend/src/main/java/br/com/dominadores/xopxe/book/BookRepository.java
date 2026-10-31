@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-	/** Os parâmetros já chegam em minúsculas; null desliga o filtro. */
+	/** Os parâmetros já chegam em minúsculas. Se vier null, ignora o filtro. */
 	@Query("""
 			select b from Book b
 			where (:genre is null or lower(b.genre) = :genre)

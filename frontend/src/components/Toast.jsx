@@ -3,8 +3,7 @@ import "../styles/Toast.css";
 
 const SUCCESS_DURATION_MS = 4000;
 
-// Aviso no canto da tela. O de sucesso some sozinho, o de erro fica até
-// o usuário fechar, para dar tempo de ler.
+// Aviso no canto da tela. O de sucesso some sozinho, o de erro fica até fechar.
 export function Toast({ message, kind = "success", onClose }) {
   useEffect(() => {
     if (kind !== "success") return;

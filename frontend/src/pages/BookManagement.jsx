@@ -80,8 +80,8 @@ export function BookManagement() {
                     <div><strong>{book.title}</strong><span>{book.author}</span></div>
                   </div>
                   <div className="management__actions">
-                    <button type="button" disabled={busyId !== null} onClick={() => { setEditing(book); setError(""); setNotice(""); }}>Editar</button>
-                    <button type="button" className="management__delete" disabled={busyId !== null} onClick={() => onDelete(book)}>
+                    <button type="button" aria-label={`Editar ${book.title}`} disabled={busyId !== null} onClick={() => { setEditing(book); setError(""); setNotice(""); }}>Editar</button>
+                    <button type="button" className="management__delete" aria-label={`Excluir ${book.title}`} disabled={busyId !== null} onClick={() => onDelete(book)}>
                       {busyId === book.id ? "Excluindo..." : "Excluir"}
                     </button>
                   </div>

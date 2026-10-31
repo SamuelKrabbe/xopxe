@@ -7,8 +7,7 @@
   background: var(--card-alt);
 }
 
-/* Coluna em flex para o rótulo crescer e todos os selects ficarem alinhados,
-   mesmo quando um rótulo ocupa duas linhas. */
+/* Rótulo cresce para os selects ficarem alinhados. */
 .filters__item {
   display: flex;
   flex-direction: column;

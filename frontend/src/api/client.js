@@ -1,6 +1,5 @@
-// Os caminhos começam com /api. Em dev o Vite manda para o backend
-// (vite.config.js) e no Docker é o nginx. Como fica tudo no mesmo endereço,
-// o navegador já manda o cookie da sessão.
+// Os caminhos começam com /api. Em dev o Vite repassa para o backend, no Docker
+// o nginx e na Vercel o vercel.json. Mesmo endereço, então o cookie da sessão vai junto.
 
 export async function request(method, path, body) {
   let response;

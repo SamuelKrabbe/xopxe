@@ -52,8 +52,7 @@ class BookSeederTest {
 		verify(bookRepository, never()).save(any());
 	}
 
-	// O BookService não confere as anotações do DTO (isso é o @Valid do controller),
-	// então testamos o arquivo contra elas aqui.
+	// Confere o arquivo contra as anotações do DTO (o @Valid só roda no controller).
 	@Test
 	void seedFileFollowsTheRequestConstraints() throws Exception {
 		CreateBookRequest[] books = bookSeeder.readSeedFile();

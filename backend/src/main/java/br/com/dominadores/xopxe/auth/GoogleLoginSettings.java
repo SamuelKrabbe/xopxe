@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * Credenciais do Google (GOOGLE_CLIENT_ID e GOOGLE_CLIENT_SECRET no .env).
- * Sem elas o sistema funciona normalmente, só sem o login com Google.
+ * Sem elas o login com Google fica desligado.
  */
 @Component
 public class GoogleLoginSettings {
@@ -29,7 +29,7 @@ public class GoogleLoginSettings {
         return !clientId.isBlank() && !clientSecret.isBlank();
     }
 
-    // O Spring já conhece os endereços do Google; só falta o id e o segredo.
+    // Os endereços do Google já vêm prontos no Spring.
     public ClientRegistration clientRegistration() {
         var builder = CommonOAuth2Provider.GOOGLE.getBuilder("google")
                 .clientId(clientId)

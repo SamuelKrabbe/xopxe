@@ -9,14 +9,13 @@ import "../styles/BooksInfo.css";
 export function BooksInfo({ selectedBook, user }) {
   const [reviews, setReviews] = useState(null);
   const [reviewsError, setReviewsError] = useState("");
-  // Muda depois de salvar ou apagar uma avaliação, para recarregar a lista.
+  // Muda ao salvar ou apagar uma avaliação e recarrega a lista.
   const [reviewsVersion, setReviewsVersion] = useState(0);
   const [hasCover, setHasCover] = useState(true);
   const [isReading, setIsReading] = useState(false);
   const panelRef = useRef(null);
 
-  // No celular o painel fica embaixo da lista, então rola a tela até ele.
-  // No computador ele já aparece do lado.
+  // No celular rola a tela até o painel, que fica embaixo da lista.
   useEffect(() => {
     if (!window.matchMedia("(max-width: 900px)").matches) return;
     const top = panelRef.current.getBoundingClientRect().top;

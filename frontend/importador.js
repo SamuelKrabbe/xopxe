@@ -10,9 +10,8 @@ import { writeFile } from "node:fs/promises";
 const API_KEY = process.env.GOOGLE_BOOKS_API_KEY;
 const ARQUIVO_SEED = new URL("../backend/src/main/resources/seed/books.json", import.meta.url);
 
-// Livros em domínio público do Internet Archive, escolhidos à mão porque a
-// busca automática trazia muita coisa errada. Pegamos PDFs com texto digital,
-// que ficam melhores no leitor do que livros escaneados.
+// Livros em domínio público do Internet Archive, escolhidos à mão.
+// Só PDFs com texto digital, não escaneados.
 const LIVROS_GRATUITOS = [
   { arquivo: "memorias-postumas-de-bras-cubas_202503", titulo: "Memórias Póstumas de Brás Cubas", autor: "Machado de Assis", ano: 1881, genero: "Romance" },
   { arquivo: "dom-casmurro_202503", titulo: "Dom Casmurro", autor: "Machado de Assis", ano: 1899, genero: "Romance" },
@@ -36,8 +35,7 @@ const LIVROS_GRATUITOS = [
   { arquivo: "vidas-secas-graciliano-ramos", titulo: "Vidas Secas", autor: "Graciliano Ramos", ano: 1938, genero: "Romance" },
 ];
 
-// O Google manda as categorias em inglês e cada uma de um jeito. Aqui a gente
-// converte para um dos gêneros de src/data/genres.js, que são os do filtro.
+// Converte as categorias do Google (em inglês) para os gêneros de src/data/genres.js.
 function mapearGenero(categorias) {
   const g = (categorias?.[0] || "").toLowerCase();
 
@@ -109,7 +107,7 @@ async function buscarLivrosDeCompra() {
   const url2 = `https://www.googleapis.com/books/v1/volumes?q=ficcao&maxResults=10&key=${API_KEY}`;
   const [dados1, dados2] = await Promise.all([buscarJson(url1), buscarJson(url2)]);
 
-  // Tira os de domínio público, esses a gente já pega do Internet Archive.
+  // Tira os de domínio público, que já vêm do Internet Archive.
   const itens = [...(dados1.items || []), ...(dados2.items || [])].filter(
     (item) => !item.accessInfo?.publicDomain
   );

@@ -23,8 +23,7 @@
   flex-direction: column;
   gap: 16px;
 
-  /* O painel fica parado enquanto a lista rola, assim o livro escolhido
-     aparece sem precisar voltar para o topo. */
+  /* O painel fica parado enquanto a lista rola. */
   position: sticky;
   top: 16px;
   align-self: start;

@@ -34,9 +34,8 @@ class ReviewSecurityTest {
 				.andExpect(status().isUnauthorized());
 	}
 
-	// PUT e DELETE em /api/books são só para ADMIN, mas isso não pode impedir o
-	// usuário comum de avaliar. O livro não existe, então 404 quer dizer que a
-	// segurança deixou passar.
+	// Usuário comum pode avaliar. O livro não existe, então 404 quer dizer que
+	// passou pela segurança.
 	@Test
 	@WithMockUser(username = "user@xopxe.com", roles = "USER")
 	void commonUserCanSaveOwnReview() throws Exception {

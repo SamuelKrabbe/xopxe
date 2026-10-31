@@ -9,7 +9,7 @@ export function PdfReader({ book, onClose }) {
 
   useEffect(() => {
     const dialog = dialogRef.current;
-    // No StrictMode o efeito roda duas vezes, e abrir um dialog que já está aberto dá erro.
+    // No StrictMode o efeito roda duas vezes. Abrir um dialog aberto dá erro.
     if (!dialog.open) dialog.showModal();
   }, []);
 
@@ -19,8 +19,7 @@ export function PdfReader({ book, onClose }) {
       className="pdf-reader"
       aria-labelledby="pdf-reader-title"
       onClose={onClose}
-      // O livro ocupa o dialog todo, então se o clique foi no próprio dialog
-      // foi no fundo escuro em volta.
+      // Clique no próprio dialog é clique no fundo escuro.
       onClick={(event) => {
         if (event.target === event.currentTarget) dialogRef.current.close();
       }}
@@ -55,8 +54,7 @@ export function PdfReader({ book, onClose }) {
         {isLoading && (
           <p className="pdf-reader__loading" role="status">
             Carregando o livro…
-            {/* Alguns navegadores baixam o PDF em vez de mostrar, e aí ele
-                nunca termina de carregar. */}
+            {/* Alguns navegadores baixam o PDF em vez de mostrar. */}
             <small>Se demorar, use "Abrir em nova aba".</small>
           </p>
         )}

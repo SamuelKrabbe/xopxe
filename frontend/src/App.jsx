@@ -9,8 +9,7 @@ function App() {
   const [page, setPage] = useState("home");
   const [user, setUser] = useState(null);
 
-  // Ao abrir a página, pergunta ao backend se já existe sessão (login
-  // anterior ou volta do Google). Assim o F5 não desloga ninguém.
+  // Ao abrir a página, pergunta ao backend se já existe sessão.
   useEffect(() => {
     fetchCurrentUser()
       .then(setUser)

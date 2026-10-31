@@ -49,7 +49,7 @@ public class BookService {
 		bookRepository.deleteById(id);
 	}
 
-	// Usado pelo create e pelo update, assim os dois validam do mesmo jeito.
+	// Validação usada no create e no update.
 	private void apply(Book book, CreateBookRequest request) {
 		String coverUrl = trimToNull(request.coverUrl());
 		// A capa pode ser uma enviada pelo formulário ou um link antigo.
@@ -58,7 +58,6 @@ public class BookService {
 		}
 
 		// Só guarda o link do tipo de acesso escolhido, o outro fica null.
-		// Assim, se trocar de FREE para PURCHASE na edição, o link antigo some.
 		String pdfUrl = null;
 		String purchaseUrl = null;
 

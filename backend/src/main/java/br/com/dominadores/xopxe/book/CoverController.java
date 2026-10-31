@@ -24,8 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
- * Upload das capas. Fica em /api/books/covers para aproveitar as regras do
- * SecurityConfig: POST em /api/books/** é só ADMIN e GET é liberado.
+ * Upload das capas. POST só ADMIN e GET liberado (regras de /api/books/** no SecurityConfig).
  */
 @Tag(name = "Livros")
 @RestController
@@ -36,7 +35,7 @@ public class CoverController {
 	public static final String URL_PREFIX = "/api/books/covers/";
 	public static final String URL_PATTERN = "/api/books/covers/\\d+";
 
-	// SVG fica de fora porque pode carregar JavaScript.
+	// Sem SVG, que pode ter JavaScript.
 	private static final Set<String> ALLOWED_TYPES = Set.of("image/jpeg", "image/png", "image/webp", "image/gif");
 
 	private final CoverRepository coverRepository;
@@ -46,7 +45,7 @@ public class CoverController {
 	@PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
 	@ResponseStatus(HttpStatus.CREATED)
 	public Map<String, String> upload(@RequestParam("file") MultipartFile file) throws IOException {
-		if (file.isEmpty() || !ALLOWED_TYPES.contains(file.getContentType())) {
+		if (file.isEmpty() || file.getContentType() == null || !ALLOWED_TYPES.contains(file.getContentType())) {
 			throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "A capa deve ser uma imagem JPG, PNG, WEBP ou GIF.");
 		}
 
@@ -64,7 +63,7 @@ public class CoverController {
 		Cover cover = coverRepository.findById(id)
 				.orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Capa não encontrada."));
 
-		// A imagem de um id nunca muda, então o navegador pode guardar por bastante tempo.
+		// A imagem de um id nunca muda. O navegador guarda por 30 dias.
 		return ResponseEntity.ok()
 				.contentType(MediaType.parseMediaType(cover.getContentType()))
 				.cacheControl(CacheControl.maxAge(Duration.ofDays(30)).cachePublic())
