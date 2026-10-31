@@ -32,3 +32,13 @@ export function fetchBookById(id) {
 export function createBook(bookData) {
   return request("POST", "/api/books", bookData);
 }
+
+// Atualiza um livro existente. O id identifica a obra no banco.
+export function updateBook(id, bookData) {
+  return request("PUT", `/api/books/${id}`, bookData);
+}
+
+// Exclui um livro existente; o backend retorna 204 (sem corpo).
+export function deleteBook(id) {
+  return request("DELETE", `/api/books/${id}`);
+}

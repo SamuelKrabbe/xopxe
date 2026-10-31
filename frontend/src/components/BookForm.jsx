@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { createBook } from "../api/books";
+import { createBook, updateBook } from "../api/books";
 import { GENRES } from "../data/genres";
 import { Toast } from "./Toast";
 import "../styles/BookForm.css";
@@ -17,8 +17,12 @@ const EMPTY_FORM = {
   purchaseUrl: "",
 };
 
-export function BookForm() {
-  const [formData, setFormData] = useState(EMPTY_FORM);
+export function BookForm({ book = null, onSaved = null, onCancel = null }) {
+  const editing = book !== null;
+  const [formData, setFormData] = useState(() => book ? {
+    ...EMPTY_FORM,
+    ...Object.fromEntries(Object.keys(EMPTY_FORM).map(key => [key, book[key] ?? EMPTY_FORM[key]])),
+  } : EMPTY_FORM);
   const [toast, setToast] = useState(null);
   const [isSending, setIsSending] = useState(false);
   // useCallback para a função não mudar a cada render, senão o Toast reinicia o timer.
@@ -49,11 +53,17 @@ export function BookForm() {
         purchaseUrl: formData.accessType === "PURCHASE" ? formData.purchaseUrl : null,
       };
 
-      await createBook(livroParaSalvar);
-      setFormData(EMPTY_FORM);
-      setToast({ kind: "success", message: `Obra "${livroParaSalvar.title}" cadastrada no acervo.` });
+      const saved = editing
+        ? await updateBook(book.id, livroParaSalvar)
+        : await createBook(livroParaSalvar);
+      if (editing) {
+        onSaved?.(saved);
+      } else {
+        setFormData(EMPTY_FORM);
+      }
+      setToast({ kind: "success", message: `Obra "${livroParaSalvar.title}" ${editing ? "atualizada" : "cadastrada"} com sucesso.` });
     } catch (error) {
-      setToast({ kind: "error", message: `Não foi possível cadastrar a obra: ${error.message}` });
+      setToast({ kind: "error", message: `Não foi possível salvar a obra: ${error.message}` });
     } finally {
       setIsSending(false);
     }
@@ -224,8 +234,13 @@ export function BookForm() {
 
       <div className="book-form__actions">
         <button type="submit" className="book-form__button" disabled={isSending}>
-          {isSending ? "Cadastrando..." : "Cadastrar obra"}
+          {isSending ? "Salvando..." : editing ? "Salvar alterações" : "Cadastrar obra"}
         </button>
+        {editing && onCancel && (
+          <button type="button" className="book-form__button" onClick={onCancel} disabled={isSending}>
+            Voltar à lista
+          </button>
+        )}
       </div>
 
       {toast && <Toast kind={toast.kind} message={toast.message} onClose={closeToast} />}

@@ -4,6 +4,7 @@ import "../styles/Header.css";
 const PAGES = [
   { id: "home", label: "Acervo" },
   { id: "registration", label: "Cadastrar obra" },
+  { id: "management", label: "Gerenciar obras" },
 ];
 
 export function Header({ user, page, onNavigate, onLogin, onLogout }) {

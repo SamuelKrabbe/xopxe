@@ -3,7 +3,7 @@ import "./styles/App.css";
 import { fetchCurrentUser } from "./api/auth";
 
 import { Header } from "./components";
-import { MainPage, BookRegistration } from "./pages";
+import { MainPage, BookRegistration, BookManagement } from "./pages";
 
 function App() {
   const [page, setPage] = useState("home");
@@ -37,6 +37,7 @@ function App() {
       {page === "home" && <MainPage user={user} />}
 
       {page === "registration" && user?.role === "ADMIN" && <BookRegistration />}
+      {page === "management" && user?.role === "ADMIN" && <BookManagement />}
 
       <footer className="app-footer">
         <p>Xopxe · Trabalho de Programação Web · UFMS 2026</p>
